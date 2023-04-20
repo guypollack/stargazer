@@ -6,7 +6,7 @@ const config = {
 	type: Phaser.AUTO,
 	width: 900,
 	height: 600,
-	backgroundColor: "b9eaff",
+	backgroundColor: "13102B",
 	physics: {
 		default: 'arcade',
 		arcade: {
