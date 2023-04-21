@@ -40,6 +40,14 @@ class GameScene extends Phaser.Scene {
         tile.lineWidth = 2
         tile.column = i / 100;
         tile.row = j / 100;
+        tile.number = ((i * 6 + j) / 100);
+        tile.setInteractive();
+        tile.on('pointerup', () => {
+          if (tile.number === gameState.target.number) {
+            alert("You win!");
+            this.pickTarget();
+          }
+        })
         gameState.backgroundTiles.add(tile);
       }
     }
@@ -50,7 +58,7 @@ class GameScene extends Phaser.Scene {
     const randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
     // gameState.backgroundTiles.children.entries[randNumber].y = 600;
 
-    gameState.stars = this.add.group();
+    // gameState.stars = this.add.group();
 
 
     for (let i = 0; i < gameState.backgroundTiles.children.entries.length; i++) {
@@ -70,20 +78,8 @@ class GameScene extends Phaser.Scene {
     console.log(gameState.stars);
 
     gameState.target = this.add.group();
-    const targetSquare = this.add.rectangle(400, 600, 100, 100, 0x000000).setOrigin(0);
-    gameState.target.add(targetSquare);
-    gameState.target.stars = this.add.group();
-
-    gameState.target.xOrigin = gameState.backgroundTiles.children.entries[randNumber].x;
-    gameState.target.yOrigin = gameState.backgroundTiles.children.entries[randNumber].y;
-    console.log(randNumber);
-    gameState.backgroundTiles.children.entries[randNumber].stars.children.entries.forEach(star => {
-
-      const xOffset = star.x - gameState.target.xOrigin;
-      const yOffset = star.y - gameState.target.yOrigin;
-      const starToGenerate = this.add.image(400 + xOffset, 600 + yOffset, 'star').setScale(0.1);
-      gameState.target.stars.add(starToGenerate);
-    });
+    this.pickTarget();
+    
 
 
     // for (let i = 0; i < 100; i++) {
@@ -154,4 +150,30 @@ class GameScene extends Phaser.Scene {
 		// 	gameState.player.setVelocityX(0);
 		// }
 	}
+
+  pickTarget() {
+    const randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
+    gameState.target.clear(true);
+
+    const targetSquare = this.add.rectangle(400, 600, 100, 100, 0x000000).setOrigin(0);
+    gameState.target.add(targetSquare);
+
+    gameState.target.number = randNumber;
+
+    gameState.target.stars = this.add.group();
+
+    gameState.target.xOrigin = gameState.backgroundTiles.children.entries[randNumber].x;
+    gameState.target.yOrigin = gameState.backgroundTiles.children.entries[randNumber].y;
+    // console.log(randNumber);
+    gameState.backgroundTiles.children.entries[randNumber].stars.children.entries.forEach(star => {
+      const xOffset = star.x - gameState.target.xOrigin;
+      const yOffset = star.y - gameState.target.yOrigin;
+      const starToGenerate = this.add.image(400 + xOffset, 600 + yOffset, 'star').setScale(0.1);
+      gameState.target.stars.add(starToGenerate);
+    });
+
+  }
+
+
+
 }
