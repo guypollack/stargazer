@@ -152,7 +152,12 @@ class GameScene extends Phaser.Scene {
 	}
 
   pickTarget() {
-    const randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
+    let randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
+
+    while (gameState.backgroundTiles.children.entries[randNumber].removed) {
+      randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
+    }
+
     gameState.target.clear(true);
 
     const targetSquare = this.add.rectangle(400, 600, 100, 100, 0x000000).setOrigin(0);
