@@ -36,17 +36,18 @@ class GameScene extends Phaser.Scene {
         const bgColor = gameState.bgColors[j / 100];
         const tile = this.add.rectangle(i, j, 100, 100, bgColor).setOrigin(0);
         tile.strokeColor = 0xa7f66c;
-        tile.isStroked = true;
+        // tile.isStroked = true;
         tile.lineWidth = 2
         tile.column = i / 100;
         tile.row = j / 100;
         tile.number = ((i * 6 + j) / 100);
+        tile.removed = false;
         tile.setInteractive();
         tile.on('pointerup', () => {
           if (tile.number === gameState.target.number) {
-            alert("You win!");
+            // alert("You win!");
+            this.markCorrect(tile.number);
             this.pickTarget();
-            this.addGreenTint(tile.number);
           }
         })
         gameState.backgroundTiles.add(tile);
@@ -173,7 +174,8 @@ class GameScene extends Phaser.Scene {
 
   }
 
-  addGreenTint(number) {
+  markCorrect(number) {
+    gameState.backgroundTiles.children.entries[number].removed = true;
     gameState.backgroundTiles.children.entries[number].stars.children.entries.forEach(star => {
       star.setTint(0x19fa4d);
     })
