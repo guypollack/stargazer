@@ -46,28 +46,45 @@ class GameScene extends Phaser.Scene {
 
     console.log(gameState.backgroundTiles);
     
+    // gameState.backgroundTiles.children.entries[0].y = 600;
+    const randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
+    // gameState.backgroundTiles.children.entries[randNumber].y = 600;
+
     gameState.stars = this.add.group();
 
 
-    // const testStar = this.add.image(100, 100, 'star').setScale(0.1);
-    // gameState.stars.add(testStar);
-
     for (let i = 0; i < gameState.backgroundTiles.children.entries.length; i++) {
-      gameState.stars[i] = this.add.group();
+      gameState.backgroundTiles.children.entries[i].stars = this.add.group();
       for (let j = 0; j < 8; j++) {
         const xOrigin = gameState.backgroundTiles.children.entries[i].x;
         const yOrigin = gameState.backgroundTiles.children.entries[i].y;
         const xCoord = xOrigin +  Math.random() * 85 + 5;
         const yCoord = yOrigin + Math.random() * 85 + 5;
         const star = this.add.image(xCoord, yCoord, 'star').setScale(0.1);
-        gameState.stars[i].add(star);
+        gameState.backgroundTiles.children.entries[i].stars.add(star);
       }
       // console.log(tile);
 
     }
 
-    // console.log(gameState.backgroundTiles.children.entries[1]);
     console.log(gameState.stars);
+
+    gameState.target = this.add.group();
+    const targetSquare = this.add.rectangle(400, 600, 100, 100, 0x000000).setOrigin(0);
+    gameState.target.add(targetSquare);
+    gameState.target.stars = this.add.group();
+
+    gameState.target.xOrigin = gameState.backgroundTiles.children.entries[randNumber].x;
+    gameState.target.yOrigin = gameState.backgroundTiles.children.entries[randNumber].y;
+    console.log(randNumber);
+    gameState.backgroundTiles.children.entries[randNumber].stars.children.entries.forEach(star => {
+
+      const xOffset = star.x - gameState.target.xOrigin;
+      const yOffset = star.y - gameState.target.yOrigin;
+      const starToGenerate = this.add.image(400 + xOffset, 600 + yOffset, 'star').setScale(0.1);
+      gameState.target.stars.add(starToGenerate);
+    });
+
 
     // for (let i = 0; i < 100; i++) {
     //   const xCoord = Math.random() * (gameState.canvasWidth - 20) + 10;
