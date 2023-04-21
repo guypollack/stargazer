@@ -73,6 +73,7 @@ class GameScene extends Phaser.Scene {
 
     for (let i = 0; i < gameState.backgroundTiles.children.entries.length; i++) {
       gameState.backgroundTiles.children.entries[i].stars = this.add.group();
+      gameState.backgroundTiles.children.entries[i].starCircles = this.add.group();
       for (let j = 0; j < 8; j++) {
         const xOrigin = gameState.backgroundTiles.children.entries[i].x;
         const yOrigin = gameState.backgroundTiles.children.entries[i].y;
@@ -80,7 +81,14 @@ class GameScene extends Phaser.Scene {
         const yCoord = yOrigin + Math.random() * 85 + 5;
         const star = this.add.image(xCoord, yCoord, 'star').setScale(0.1);
         gameState.backgroundTiles.children.entries[i].stars.add(star);
+        const starCircle = this.add.circle(star.x, star.y, star.width * star._scaleX, 0x19fa4d, 0.3);
+        starCircle.visible = false;
+        gameState.backgroundTiles.children.entries[i].starCircles.add(starCircle);
+        // gameState.backgroundTiles.children.entries[i].stars.add(starCircle);
         // if (i > 1) {
+        //   this.markCorrect(i);
+        // }
+        // if (Math.random() > 0.9) {
         //   this.markCorrect(i);
         // }
       }
@@ -196,6 +204,9 @@ class GameScene extends Phaser.Scene {
     gameState.backgroundTiles.children.entries[number].removed = true;
     gameState.backgroundTiles.children.entries[number].stars.children.entries.forEach(star => {
       star.setTint(0x19fa4d);
+    })
+    gameState.backgroundTiles.children.entries[number].starCircles.children.entries.forEach(circle => {
+      circle.visible = true;
     })
   }
 
