@@ -46,8 +46,16 @@ class GameScene extends Phaser.Scene {
         tile.on('pointerup', () => {
           if (tile.number === gameState.target.number) {
             // alert("You win!");
-            this.markCorrect(tile.number);
-            this.pickTarget();
+            this.markCorrect(tile.number); // does not work on final target click
+            if (this.isGameFinished()) {
+
+              setTimeout(() => {
+                alert("You win!");
+              }, 200);
+
+            } else {
+              this.pickTarget(); 
+            }
           }
         })
         gameState.backgroundTiles.add(tile);
@@ -72,12 +80,15 @@ class GameScene extends Phaser.Scene {
         const yCoord = yOrigin + Math.random() * 85 + 5;
         const star = this.add.image(xCoord, yCoord, 'star').setScale(0.1);
         gameState.backgroundTiles.children.entries[i].stars.add(star);
+        // if (i > 1) {
+        //   this.markCorrect(i);
+        // }
       }
       // console.log(tile);
 
     }
 
-    console.log(gameState.stars);
+    // console.log(gameState.stars);
 
     gameState.target = this.add.group();
     this.pickTarget();
@@ -158,6 +169,8 @@ class GameScene extends Phaser.Scene {
       randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
     }
 
+    console.log(randNumber);
+
     gameState.target.clear(true);
 
     const targetSquare = this.add.rectangle(400, 600, 100, 100, 0x000000).setOrigin(0);
@@ -185,4 +198,9 @@ class GameScene extends Phaser.Scene {
       star.setTint(0x19fa4d);
     })
   }
+
+  isGameFinished() {
+    return gameState.backgroundTiles.children.entries.every(tile => tile.removed);
+  }
+
 }
