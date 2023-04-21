@@ -33,7 +33,8 @@ class GameScene extends Phaser.Scene {
     let num = 0;
     for (let i = 0; i < 900; i += 100) {
       for (let j = 0; j < 600; j += 100) {
-        const bgColor = gameState.bgColors[j / 100];
+        // const bgColor = gameState.bgColors[j / 100];
+        const bgColor = gameState.bgColors[0];
         const tile = this.add.rectangle(i, j, 100, 100, bgColor).setOrigin(0);
         tile.strokeColor = 0xa7f66c;
         // tile.isStroked = true;
