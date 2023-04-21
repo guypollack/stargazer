@@ -41,7 +41,7 @@ class GameScene extends Phaser.Scene {
         tile.column = i / 100;
         tile.row = j / 100;
         tile.number = ((i * 6 + j) / 100);
-        tile.removed = false;
+        tile.found = false;
         tile.setInteractive();
         tile.on('pointerup', () => {
           if (tile.number === gameState.target.number) {
@@ -173,7 +173,7 @@ class GameScene extends Phaser.Scene {
   pickTarget() {
     let randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
 
-    while (gameState.backgroundTiles.children.entries[randNumber].removed) {
+    while (gameState.backgroundTiles.children.entries[randNumber].found) {
       randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
     }
 
@@ -201,7 +201,7 @@ class GameScene extends Phaser.Scene {
   }
 
   markCorrect(number) {
-    gameState.backgroundTiles.children.entries[number].removed = true;
+    gameState.backgroundTiles.children.entries[number].found = true;
     gameState.backgroundTiles.children.entries[number].stars.children.entries.forEach(star => {
       star.setTint(0x19fa4d);
     })
@@ -211,7 +211,7 @@ class GameScene extends Phaser.Scene {
   }
 
   isGameFinished() {
-    return gameState.backgroundTiles.children.entries.every(tile => tile.removed);
+    return gameState.backgroundTiles.children.entries.every(tile => tile.found);
   }
 
 }
