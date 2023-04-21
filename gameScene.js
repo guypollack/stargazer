@@ -46,6 +46,7 @@ class GameScene extends Phaser.Scene {
           if (tile.number === gameState.target.number) {
             alert("You win!");
             this.pickTarget();
+            this.addGreenTint(tile.number);
           }
         })
         gameState.backgroundTiles.add(tile);
@@ -79,8 +80,6 @@ class GameScene extends Phaser.Scene {
 
     gameState.target = this.add.group();
     this.pickTarget();
-    
-
 
     // for (let i = 0; i < 100; i++) {
     //   const xCoord = Math.random() * (gameState.canvasWidth - 20) + 10;
@@ -174,6 +173,9 @@ class GameScene extends Phaser.Scene {
 
   }
 
-
-
+  addGreenTint(number) {
+    gameState.backgroundTiles.children.entries[number].stars.children.entries.forEach(star => {
+      star.setTint(0x19fa4d);
+    })
+  }
 }
