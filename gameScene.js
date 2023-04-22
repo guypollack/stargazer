@@ -10,6 +10,9 @@ class GameScene extends Phaser.Scene {
 		this.load.image('platform', 'https://content.codecademy.com/courses/learn-phaser/physics/platform.png');
 		this.load.image('codey', 'https://content.codecademy.com/courses/learn-phaser/physics/codey.png');
     this.load.image('star', './star.png');
+    this.load.image('star1', './star-1.png');
+    this.load.image('star2', './star-2.png');
+    this.load.image('star3', './star-3.png');
 	}
 
 
@@ -22,6 +25,8 @@ class GameScene extends Phaser.Scene {
       4: 0x1E1B46,
       5: 0x231F52
     }
+
+    gameState.starImages = ["star1","star2","star3"];
 
     gameState.canvasWidth = document.querySelector("canvas").offsetWidth;
     gameState.canvasHeight = document.querySelector("canvas").offsetHeight;
@@ -80,7 +85,9 @@ class GameScene extends Phaser.Scene {
         const yOrigin = gameState.backgroundTiles.children.entries[i].y;
         const xCoord = xOrigin +  Math.random() * 85 + 5;
         const yCoord = yOrigin + Math.random() * 85 + 5;
-        const star = this.add.image(xCoord, yCoord, 'star').setScale(0.1);
+        const starImage = gameState.starImages[Math.floor(Math.random() * gameState.starImages.length)];
+        const starScale = (Math.random() * 0.3) + 0.2;
+        const star = this.add.image(xCoord, yCoord, starImage).setScale(starScale);
         gameState.backgroundTiles.children.entries[i].stars.add(star);
         const starCircle = this.add.circle(star.x, star.y, star.width * star._scaleX, 0x19fa4d, 0.3);
         starCircle.visible = false;
@@ -205,7 +212,7 @@ class GameScene extends Phaser.Scene {
     gameState.backgroundTiles.children.entries[randNumber].stars.children.entries.forEach(star => {
       const xOffset = star.x - gameState.target.xOrigin;
       const yOffset = star.y - gameState.target.yOrigin;
-      const starToGenerate = this.add.image(400 + xOffset, 600 + yOffset, 'star').setScale(0.1);
+      const starToGenerate = this.add.image(400 + xOffset, 600 + yOffset, star.texture.key).setScale(star._scaleX);
       gameState.target.stars.add(starToGenerate);
     });
 
