@@ -28,6 +28,8 @@ class GameScene extends Phaser.Scene {
 
     gameState.starImages = ["star1","star2","star3"];
 
+    gameState.starTweens = [];
+
     gameState.canvasWidth = document.querySelector("canvas").offsetWidth;
     gameState.canvasHeight = document.querySelector("canvas").offsetHeight;
 
@@ -88,6 +90,13 @@ class GameScene extends Phaser.Scene {
         const starImage = gameState.starImages[Math.floor(Math.random() * gameState.starImages.length)];
         const starScale = (Math.random() * 0.3) + 0.2;
         const star = this.add.image(xCoord, yCoord, starImage).setScale(starScale);
+        gameState.starTweens.push(this.tweens.add({
+          targets: star,
+          duration: Math.random() * 3000 + 1000,
+          alpha: 0.5,
+          repeat: -1,
+          yoyo: true
+        }));
         gameState.backgroundTiles.children.entries[i].stars.add(star);
         const starCircle = this.add.circle(star.x, star.y, star.width * star._scaleX, 0x19fa4d, 0.3);
         starCircle.visible = false;
