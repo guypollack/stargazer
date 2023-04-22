@@ -98,7 +98,12 @@ class GameScene extends Phaser.Scene {
     }
 
     // console.log(gameState.stars);
+    gameState.telescope = this.add.circle(450, 300, 700, 0xFFFFFF, 0);
+    gameState.telescope.strokeColor = 0x000000;
+    gameState.telescope.isStroked = true;
+    gameState.telescope.lineWidth = 1200;
 
+    gameState.bottomBar = this.add.rectangle(0, 600, 900, 700, 0x13102B, 1).setOrigin(0);
     gameState.target = this.add.group();
     this.pickTarget();
 
@@ -162,6 +167,11 @@ class GameScene extends Phaser.Scene {
 	}
 
 	update() {
+    if (this.input.activePointer.y <= 600) {
+      gameState.telescope.x = this.input.activePointer.x;
+      gameState.telescope.y = this.input.activePointer.y;  
+    }
+    
 		// if (gameState.cursors.left.isDown) {
 		// 	gameState.player.setVelocityX(-160);
 		// } else if (gameState.cursors.right.isDown) {
