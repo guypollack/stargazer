@@ -80,6 +80,16 @@ class GameScene extends Phaser.Scene {
     }
 
     console.log(gameState.backgroundTiles);
+
+    gameState.boundaries = this.add.group();
+    const leftBoundary = this.add.rectangle(0,0,1,600,0xa7f66c).setOrigin(0);
+    this.physics.add.existing(leftBoundary);
+    leftBoundary.body.setGravity(0,-200);
+    const bottomBoundary = this.add.rectangle(0,600,900,1,0xa7f66c).setOrigin(0);
+    this.physics.add.existing(bottomBoundary);
+    bottomBoundary.body.setGravity(0,-200);
+    gameState.boundaries.add(leftBoundary);
+    gameState.boundaries.add(bottomBoundary);
     
     // gameState.backgroundTiles.children.entries[0].y = 600;
     const randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
@@ -198,6 +208,10 @@ class GameScene extends Phaser.Scene {
 			callbackScope: this,
 			loop: true,
 		});
+
+    this.physics.add.overlap(gameState.boundaries, gameState.shootingStars, (boundary, shootingStar) => {
+      shootingStar.destroy();
+    })
 
     this.physics.add.overlap(gameState.telescope, gameState.shootingStars, () => {
       if (gameState.shootingStarDetectionEnabled) {
