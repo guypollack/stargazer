@@ -147,13 +147,13 @@ class GameScene extends Phaser.Scene {
     for (let i = 0; i < gameState.backgroundTiles.children.entries.length; i++) {
       gameState.backgroundTiles.children.entries[i].stars = this.add.group();
       gameState.backgroundTiles.children.entries[i].starCircles = this.add.group();
-      for (let j = 0; j < 8; j++) {
+      for (let j = 0; j < 4; j++) {
         const xOrigin = gameState.backgroundTiles.children.entries[i].x;
         const yOrigin = gameState.backgroundTiles.children.entries[i].y;
         const xCoord = xOrigin +  Math.random() * 85 + 5;
         const yCoord = yOrigin + Math.random() * 85 + 5;
         const starImage = gameState.starImages[Math.floor(Math.random() * gameState.starImages.length)];
-        const starScale = (Math.random() * 0.3) + 0.2;
+        const starScale = (Math.random() * 0.3) + 0.3;
         const star = this.add.image(xCoord, yCoord, starImage).setScale(starScale);
         gameState.starTweens.push(this.tweens.add({
           targets: star,
