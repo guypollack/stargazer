@@ -33,6 +33,8 @@ class GameScene extends Phaser.Scene {
     gameState.starImages = ["star1","star2","star3"];
     gameState.starTweens = [];
 
+    gameState.shootingStarTweens = [];
+
     gameState.pointerXPos = 0;
     gameState.pointerYPos = 0;
 
@@ -136,13 +138,15 @@ class GameScene extends Phaser.Scene {
     }
 
     // console.log(gameState.stars);
-    gameState.telescope = this.add.circle(450, 300, 700, 0xFFFFFF, 0);
-    // gameState.telescope = this.add.circle(450, 300, 70, 0xFFFFFF, 1);
+    // gameState.telescope = this.add.circle(450, 300, 700, 0xFFFFFF, 0);
+    gameState.telescope = this.add.circle(450, 300, 70, 0xFFFFFF, 0);
     gameState.telescope.strokeColor = 0x000000;
-    gameState.telescope.lineWidth = 1200;
-    // gameState.telescope.isStroked = true;
+    // gameState.telescope.lineWidth = 1200;
+    gameState.telescope.lineWidth = 20;
+    gameState.telescope.isStroked = true;
     // this.physics.add.existing(gameState.telescope);
     // gameState.telescope.body.setGravity(500,0);
+    // gameState.telescope.body.setGravity(0,-200);
     // gameState.telescope.body.bounce.x = 1;
     // gameState.telescope.body.bounce.y = 1;
     // gameState.telescope.body.collideWorldBounds = true;
@@ -173,7 +177,14 @@ class GameScene extends Phaser.Scene {
 
 		const shootingStarGen = () => {
 			const xCoord = Math.random() * 900;
-      const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.5).setGravity(-5000,5000);
+      // const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(-200,-100);
+      const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(-2000,2000);
+      gameState.shootingStarTweens.push(this.add.tween({
+        targets: shootingStar,
+        duration: 1000,
+        scaleX: 1.05,
+        scaleY: 1.05,
+      }));
       // shootingStar.body.bounce.x = 1;
       // shootingStar.body.bounce.y = 1;
       // shootingStar.body.collideWorldBounds = true;
