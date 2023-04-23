@@ -136,9 +136,15 @@ class GameScene extends Phaser.Scene {
 
     // console.log(gameState.stars);
     gameState.telescope = this.add.circle(450, 300, 700, 0xFFFFFF, 0);
+    // gameState.telescope = this.add.circle(450, 300, 70, 0xFFFFFF, 1);
     gameState.telescope.strokeColor = 0x000000;
-    // gameState.telescope.isStroked = true;
     gameState.telescope.lineWidth = 1200;
+    gameState.telescope.isStroked = true;
+    // this.physics.add.existing(gameState.telescope);
+    // gameState.telescope.body.setGravity(500,0);
+    // gameState.telescope.body.bounce.x = 1;
+    // gameState.telescope.body.bounce.y = 1;
+    // gameState.telescope.body.collideWorldBounds = true;
 
     gameState.bottomBar = this.add.rectangle(0, 600, 900, 700, 0x13102B, 1).setOrigin(0);
 
@@ -151,7 +157,12 @@ class GameScene extends Phaser.Scene {
 
     // r1.body.bounce.x = 1;
     // r1.body.bounce.y = 1;
+    // r1.body.setGravity(200,0);
     // r1.body.collideWorldBounds = true;
+
+    // this.physics.add.collider(gameState.telescope, r1, () => {
+    //   console.log("bang");
+    // })
 
     // r2.body.bounce.x = 1;
     // r2.body.bounce.y = 1;
