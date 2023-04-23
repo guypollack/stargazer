@@ -110,8 +110,12 @@ class GameScene extends Phaser.Scene {
     const bottomBoundary = this.add.rectangle(0,600,900,1,0xa7f66c).setOrigin(0);
     this.physics.add.existing(bottomBoundary);
     bottomBoundary.body.setGravity(0,-200);
+    const rightBoundary = this.add.rectangle(899,0,1,600,0xa7f66c).setOrigin(0);
+    this.physics.add.existing(rightBoundary);
+    rightBoundary.body.setGravity(0,-200);
     gameState.boundaries.add(leftBoundary);
     gameState.boundaries.add(bottomBoundary);
+    gameState.boundaries.add(rightBoundary);
     
     // gameState.backgroundTiles.children.entries[0].y = 600;
     const randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
@@ -286,6 +290,10 @@ class GameScene extends Phaser.Scene {
         }, 500);
       }
     });
+
+    this.physics.add.overlap(gameState.boundaries.children.entries[2], gameState.ufos, (boundary, ufo) => {
+      ufo.destroy();
+    })
 
     this.physics.add.overlap(gameState.telescope, gameState.ufos, () => {
       if (gameState.ufoDetectionEnabled) {
