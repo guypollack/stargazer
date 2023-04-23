@@ -38,6 +38,8 @@ class GameScene extends Phaser.Scene {
     gameState.pointerXPos = 0;
     gameState.pointerYPos = 0;
 
+    gameState.shootingStarDetectionEnabled = true;
+
     gameState.canvasWidth = document.querySelector("canvas").offsetWidth;
     gameState.canvasHeight = document.querySelector("canvas").offsetHeight;
 
@@ -144,9 +146,9 @@ class GameScene extends Phaser.Scene {
     // gameState.telescope.lineWidth = 1200;
     gameState.telescope.lineWidth = 20;
     gameState.telescope.isStroked = true;
-    // this.physics.add.existing(gameState.telescope);
+    this.physics.add.existing(gameState.telescope);
     // gameState.telescope.body.setGravity(500,0);
-    // gameState.telescope.body.setGravity(0,-200);
+    gameState.telescope.body.setGravity(0,-200);
     // gameState.telescope.body.bounce.x = 1;
     // gameState.telescope.body.bounce.y = 1;
     // gameState.telescope.body.collideWorldBounds = true;
@@ -196,6 +198,16 @@ class GameScene extends Phaser.Scene {
 			callbackScope: this,
 			loop: true,
 		});
+
+    this.physics.add.overlap(gameState.telescope, gameState.shootingStars, () => {
+      if (gameState.shootingStarDetectionEnabled) {
+        console.log("Shooting star sighted");
+        gameState.shootingStarDetectionEnabled = false;
+        setTimeout(() => {
+          gameState.shootingStarDetectionEnabled = true;
+        }, 500);
+      }
+    });
 
     gameState.target = this.add.group();
     this.pickTarget();
