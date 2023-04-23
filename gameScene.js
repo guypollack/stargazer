@@ -33,7 +33,10 @@ class GameScene extends Phaser.Scene {
     gameState.starImages = ["star1","star2","star3"];
     gameState.starTweens = [];
 
+    gameState.isTakingPicture = false;
     gameState.shootingStarTweens = [];
+
+    gameState.telescopeTweens = [];
 
     gameState.pointerXPos = 0;
     gameState.pointerYPos = 0;
@@ -61,9 +64,24 @@ class GameScene extends Phaser.Scene {
         tile.found = false;
         tile.setInteractive();
         tile.on('pointerup', () => {
+          if (!gameState.isTakingPicture) {
+            gameState.isTakingPicture = true;
+            gameState.telescopeTweens.push(this.add.tween({
+              targets: gameState.telescope,
+              lineWidth: 200,
+              duration: 100,
+              yoyo: true,
+              onComplete: () => {
+                gameState.isTakingPicture = false;
+              }
+            }));
+          }
+          
           if (tile.number === gameState.target.number) {
             // alert("You win!");
-            this.markCorrect(tile.number); // does not work on final target click
+            setTimeout(() => {
+              this.markCorrect(tile.number);
+            }, 200)
             if (this.isGameFinished()) {
 
               setTimeout(() => {
