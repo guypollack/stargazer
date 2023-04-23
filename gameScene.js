@@ -19,6 +19,9 @@ class GameScene extends Phaser.Scene {
 
 
 	create() {
+
+    game.canvas.style.cursor = "none";
+
     gameState.bgColors = {
       0: 0x13102B,
       1: 0x15152D,
