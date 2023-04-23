@@ -26,8 +26,10 @@ class GameScene extends Phaser.Scene {
       5: 0x231F52
     }
 
-    gameState.starImages = ["star1","star2","star3"];
+    gameState.backgroundStarColors = [0xFCFEDD, 0xFDFCAD];
+    gameState.backgroundStarTweens = [];
 
+    gameState.starImages = ["star1","star2","star3"];
     gameState.starTweens = [];
 
     gameState.canvasWidth = document.querySelector("canvas").offsetWidth;
@@ -78,6 +80,23 @@ class GameScene extends Phaser.Scene {
 
     // gameState.stars = this.add.group();
 
+    gameState.backgroundStars = this.add.group();
+
+    for (let i = 0; i < 1000; i++) {
+      const randomXCoord = Math.random() * 900;
+      const randomYCoord = Math.random() * 600;
+      const backgroundStarColor = gameState.backgroundStarColors[Math.floor(Math.random() * 2)];
+      const backgroundStar = this.add.rectangle(randomXCoord, randomYCoord, 2, 2, backgroundStarColor);
+      gameState.backgroundStars.add(backgroundStar);
+      gameState.backgroundStarTweens.push(this.tweens.add({
+        targets: backgroundStar,
+        duration: Math.random() * 1000 + 500,
+        alpha: 0.5,
+        repeat: -1,
+        yoyo: true
+      }));
+    }
+
 
     for (let i = 0; i < gameState.backgroundTiles.children.entries.length; i++) {
       gameState.backgroundTiles.children.entries[i].stars = this.add.group();
@@ -116,7 +135,7 @@ class GameScene extends Phaser.Scene {
     // console.log(gameState.stars);
     gameState.telescope = this.add.circle(450, 300, 700, 0xFFFFFF, 0);
     gameState.telescope.strokeColor = 0x000000;
-    gameState.telescope.isStroked = true;
+    // gameState.telescope.isStroked = true;
     gameState.telescope.lineWidth = 1200;
 
     gameState.bottomBar = this.add.rectangle(0, 600, 900, 700, 0x13102B, 1).setOrigin(0);
