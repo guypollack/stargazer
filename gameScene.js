@@ -13,6 +13,7 @@ class GameScene extends Phaser.Scene {
     this.load.image('star1', './star-1.png');
     this.load.image('star2', './star-2.png');
     this.load.image('star3', './star-3.png');
+    this.load.image('shootingStar', './shooting-star.png');
 	}
 
 
@@ -139,7 +140,7 @@ class GameScene extends Phaser.Scene {
     // gameState.telescope = this.add.circle(450, 300, 70, 0xFFFFFF, 1);
     gameState.telescope.strokeColor = 0x000000;
     gameState.telescope.lineWidth = 1200;
-    gameState.telescope.isStroked = true;
+    // gameState.telescope.isStroked = true;
     // this.physics.add.existing(gameState.telescope);
     // gameState.telescope.body.setGravity(500,0);
     // gameState.telescope.body.bounce.x = 1;
@@ -167,6 +168,23 @@ class GameScene extends Phaser.Scene {
     // r2.body.bounce.x = 1;
     // r2.body.bounce.y = 1;
     // r2.body.collideWorldBounds = true;
+
+		gameState.shootingStars = this.physics.add.group();
+
+		const shootingStarGen = () => {
+			const xCoord = Math.random() * 900;
+      const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.5).setGravity(-5000,5000);
+      // shootingStar.body.bounce.x = 1;
+      // shootingStar.body.bounce.y = 1;
+      // shootingStar.body.collideWorldBounds = true;
+		}
+
+		const shootingStarGenLoop = this.time.addEvent({
+			delay: 1000,
+			callback: shootingStarGen,
+			callbackScope: this,
+			loop: true,
+		});
 
     gameState.target = this.add.group();
     this.pickTarget();
