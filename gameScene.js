@@ -190,13 +190,13 @@ class GameScene extends Phaser.Scene {
     // gameState.telescope.body.bounce.y = 1;
     // gameState.telescope.body.collideWorldBounds = true;
 
-    gameState.telescopeTopRect = this.add.rectangle(0, -370, 900, 600, 0x000000, 0).setOrigin(0);
+    gameState.telescopeTopRect = this.add.rectangle(0, -370, 900, 600, 0x000000, 1).setOrigin(0);
     gameState.telescopeTopRect.setDepth(2);
-    gameState.telescopeBottomRect = this.add.rectangle(0, 370, 900, 600, 0x000000, 0).setOrigin(0);
+    gameState.telescopeBottomRect = this.add.rectangle(0, 370, 900, 600, 0x000000, 1).setOrigin(0);
     gameState.telescopeBottomRect.setDepth(2);
-    gameState.telescopeLeftRect = this.add.rectangle(-520, 0, 900, 600, 0x000000, 0).setOrigin(0);
+    gameState.telescopeLeftRect = this.add.rectangle(-520, 0, 900, 600, 0x000000, 1).setOrigin(0);
     gameState.telescopeLeftRect.setDepth(2);
-    gameState.telescopeRightRect = this.add.rectangle(520, 0, 900, 600, 0x000000, 0).setOrigin(0);
+    gameState.telescopeRightRect = this.add.rectangle(520, 0, 900, 600, 0x000000, 1).setOrigin(0);
     gameState.telescopeRightRect.setDepth(2);
 
     gameState.bottomBar = this.add.rectangle(0, 600, 900, 700, 0x13102B, 1).setOrigin(0);
