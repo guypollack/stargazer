@@ -45,6 +45,7 @@ class GameScene extends Phaser.Scene {
     gameState.pointerYPos = 0;
 
     gameState.shootingStarDetectionEnabled = true;
+    gameState.ufoDetectionEnabled = true;
 
     gameState.canvasWidth = document.querySelector("canvas").offsetWidth;
     gameState.canvasHeight = document.querySelector("canvas").offsetHeight;
@@ -282,6 +283,16 @@ class GameScene extends Phaser.Scene {
         gameState.shootingStarDetectionEnabled = false;
         setTimeout(() => {
           gameState.shootingStarDetectionEnabled = true;
+        }, 500);
+      }
+    });
+
+    this.physics.add.overlap(gameState.telescope, gameState.ufos, () => {
+      if (gameState.ufoDetectionEnabled) {
+        console.log("UFO sighted");
+        gameState.ufoDetectionEnabled = false;
+        setTimeout(() => {
+          gameState.ufoDetectionEnabled = true;
         }, 500);
       }
     });
