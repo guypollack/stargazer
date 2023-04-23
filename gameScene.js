@@ -270,8 +270,7 @@ class GameScene extends Phaser.Scene {
 		}
 
     const ufoGenLoop = this.time.addEvent({
-			// delay: Math.random() * 10000 + 20000,
-      delay: 2000,
+			delay: Math.random() * 10000 + 20000,
 			callback: ufoGen,
 			callbackScope: this,
 			loop: true,
