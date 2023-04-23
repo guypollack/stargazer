@@ -38,7 +38,6 @@ class GameScene extends Phaser.Scene {
     gameState.canvasWidth = document.querySelector("canvas").offsetWidth;
     gameState.canvasHeight = document.querySelector("canvas").offsetHeight;
 
-
     gameState.backgroundTiles = this.add.group();
     // const testRect = this.add.rectangle(0,0, 150, 150, 0xff0000)
     // gameState.backgroundTiles.add(testRect);
@@ -138,10 +137,26 @@ class GameScene extends Phaser.Scene {
     // console.log(gameState.stars);
     gameState.telescope = this.add.circle(450, 300, 700, 0xFFFFFF, 0);
     gameState.telescope.strokeColor = 0x000000;
-    gameState.telescope.isStroked = true;
+    // gameState.telescope.isStroked = true;
     gameState.telescope.lineWidth = 1200;
 
     gameState.bottomBar = this.add.rectangle(0, 600, 900, 700, 0x13102B, 1).setOrigin(0);
+
+
+    // const r1 = this.add.rectangle(200, 150, 148, 148, 0x6666ff);
+    // const r2 = this.add.rectangle(400, 150, 148, 148, 0x9966ff).setStrokeStyle(4, 0xefc53f);
+
+    // this.physics.add.existing(r1);
+    // this.physics.add.existing(r2);
+
+    // r1.body.bounce.x = 1;
+    // r1.body.bounce.y = 1;
+    // r1.body.collideWorldBounds = true;
+
+    // r2.body.bounce.x = 1;
+    // r2.body.bounce.y = 1;
+    // r2.body.collideWorldBounds = true;
+
     gameState.target = this.add.group();
     this.pickTarget();
 
