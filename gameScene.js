@@ -245,7 +245,7 @@ class GameScene extends Phaser.Scene {
     gameState.ufos = this.physics.add.group();
 
 		const ufoGen = () => {
-			const yCoord = Math.random() * 500 + 50;
+			const yCoord = Math.random() * 400 + 50;
       // const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(-200,-100);
       const ufo = gameState.ufos.create(-10, yCoord, 'ufo').setScale(0.1).setGravity(0,-200);
       gameState.ufoTweens.push(this.add.tween({
