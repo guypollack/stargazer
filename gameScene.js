@@ -151,7 +151,7 @@ class GameScene extends Phaser.Scene {
 
     // console.log(gameState.stars);
     // gameState.telescope = this.add.circle(450, 300, 700, 0xFFFFFF, 0);
-    gameState.telescope = this.add.circle(450, 300, 70, 0xFFFFFF, 0);
+    gameState.telescope = this.add.circle(450, 300, 90, 0xFFFFFF, 0);
     gameState.telescope.strokeColor = 0x000000;
     // gameState.telescope.lineWidth = 1200;
     gameState.telescope.lineWidth = 20;
