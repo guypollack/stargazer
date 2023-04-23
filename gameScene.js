@@ -170,6 +170,7 @@ class GameScene extends Phaser.Scene {
     // console.log(gameState.stars);
     // gameState.telescope = this.add.circle(450, 300, 700, 0xFFFFFF, 0);
     gameState.telescope = this.add.circle(450, 300, 90, 0xFFFFFF, 0);
+    gameState.telescope.setDepth(2);
     gameState.telescope.strokeColor = 0x000000;
     // gameState.telescope.lineWidth = 1200;
     gameState.telescope.lineWidth = 20;
@@ -182,11 +183,16 @@ class GameScene extends Phaser.Scene {
     // gameState.telescope.body.collideWorldBounds = true;
 
     gameState.telescopeTopRect = this.add.rectangle(0, -370, 900, 600, 0x000000, 1).setOrigin(0);
+    gameState.telescopeTopRect.setDepth(2);
     gameState.telescopeBottomRect = this.add.rectangle(0, 370, 900, 600, 0x000000, 1).setOrigin(0);
+    gameState.telescopeBottomRect.setDepth(2);
     gameState.telescopeLeftRect = this.add.rectangle(-520, 0, 900, 600, 0x000000, 1).setOrigin(0);
+    gameState.telescopeLeftRect.setDepth(2);
     gameState.telescopeRightRect = this.add.rectangle(520, 0, 900, 600, 0x000000, 1).setOrigin(0);
+    gameState.telescopeRightRect.setDepth(2);
 
     gameState.bottomBar = this.add.rectangle(0, 600, 900, 700, 0x13102B, 1).setOrigin(0);
+    gameState.bottomBar.setDepth(2);
 
 
     // const r1 = this.add.rectangle(200, 150, 148, 148, 0x6666ff);
@@ -247,6 +253,11 @@ class GameScene extends Phaser.Scene {
     });
 
     gameState.target = this.add.group();
+    gameState.bottomBar.setDepth(3);
+
+    const targetSquare = this.add.rectangle(400, 600, 100, 100, 0x000000).setOrigin(0);
+    gameState.target.add(targetSquare);
+    gameState.target.setDepth(3);
     this.pickTarget();
 
     // for (let i = 0; i < 100; i++) {
@@ -340,15 +351,19 @@ class GameScene extends Phaser.Scene {
 
     console.log(randNumber);
 
-    gameState.target.clear(true);
+    // gameState.target.clear(true);
 
-    const targetSquare = this.add.rectangle(400, 600, 100, 100, 0x000000).setOrigin(0);
-    gameState.target.add(targetSquare);
+    // const targetSquare = this.add.rectangle(400, 600, 100, 100, 0x000000).setOrigin(0);
+    // gameState.target.add(targetSquare);
 
     gameState.target.number = randNumber;
 
-    gameState.target.stars = this.add.group();
-
+    if (gameState.target.stars) {
+      gameState.target.stars.clear(true);
+    } else {
+      gameState.target.stars = this.add.group();
+    }
+    
     gameState.target.xOrigin = gameState.backgroundTiles.children.entries[randNumber].x;
     gameState.target.yOrigin = gameState.backgroundTiles.children.entries[randNumber].y;
     // console.log(randNumber);
@@ -358,7 +373,7 @@ class GameScene extends Phaser.Scene {
       const starToGenerate = this.add.image(400 + xOffset, 600 + yOffset, star.texture.key).setScale(star._scaleX);
       gameState.target.stars.add(starToGenerate);
     });
-
+    gameState.target.stars.setDepth(3);
   }
 
   markCorrect(number) {
