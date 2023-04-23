@@ -32,6 +32,9 @@ class GameScene extends Phaser.Scene {
     gameState.starImages = ["star1","star2","star3"];
     gameState.starTweens = [];
 
+    gameState.pointerXPos = 0;
+    gameState.pointerYPos = 0;
+
     gameState.canvasWidth = document.querySelector("canvas").offsetWidth;
     gameState.canvasHeight = document.querySelector("canvas").offsetHeight;
 
@@ -135,7 +138,7 @@ class GameScene extends Phaser.Scene {
     // console.log(gameState.stars);
     gameState.telescope = this.add.circle(450, 300, 700, 0xFFFFFF, 0);
     gameState.telescope.strokeColor = 0x000000;
-    // gameState.telescope.isStroked = true;
+    gameState.telescope.isStroked = true;
     gameState.telescope.lineWidth = 1200;
 
     gameState.bottomBar = this.add.rectangle(0, 600, 900, 700, 0x13102B, 1).setOrigin(0);
@@ -203,8 +206,12 @@ class GameScene extends Phaser.Scene {
 
 	update() {
     if (this.input.activePointer.y <= 600) {
-      gameState.telescope.x = this.input.activePointer.x;
-      gameState.telescope.y = this.input.activePointer.y;  
+      if (Math.abs(this.input.activePointer.x - gameState.pointerXPos) > 2 || Math.abs(this.input.activePointer.y - gameState.pointerYPos) > 2) {
+        gameState.pointerXPos = this.input.activePointer.x;
+        gameState.pointerYPos = this.input.activePointer.y;
+        gameState.telescope.x = gameState.pointerXPos;
+        gameState.telescope.y = gameState.pointerYPos;  
+      }
     }
     
 		// if (gameState.cursors.left.isDown) {
