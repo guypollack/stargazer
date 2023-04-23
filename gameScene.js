@@ -240,7 +240,7 @@ class GameScene extends Phaser.Scene {
 		}
 
 		const shootingStarGenLoop = this.time.addEvent({
-			delay: 1000,
+			delay: 5000,
 			callback: shootingStarGen,
 			callbackScope: this,
 			loop: true,
