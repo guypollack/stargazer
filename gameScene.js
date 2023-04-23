@@ -14,6 +14,7 @@ class GameScene extends Phaser.Scene {
     this.load.image('star2', './star-2.png');
     this.load.image('star3', './star-3.png');
     this.load.image('shootingStar', './shooting-star.png');
+    this.load.image('ufo', './ufo-test.png');
 	}
 
 
@@ -35,6 +36,8 @@ class GameScene extends Phaser.Scene {
 
     gameState.isTakingPicture = false;
     gameState.shootingStarTweens = [];
+
+    gameState.ufoTweens = [];
 
     gameState.telescopeTweens = [];
 
@@ -182,13 +185,13 @@ class GameScene extends Phaser.Scene {
     // gameState.telescope.body.bounce.y = 1;
     // gameState.telescope.body.collideWorldBounds = true;
 
-    gameState.telescopeTopRect = this.add.rectangle(0, -370, 900, 600, 0x000000, 1).setOrigin(0);
+    gameState.telescopeTopRect = this.add.rectangle(0, -370, 900, 600, 0x000000, 0).setOrigin(0);
     gameState.telescopeTopRect.setDepth(2);
-    gameState.telescopeBottomRect = this.add.rectangle(0, 370, 900, 600, 0x000000, 1).setOrigin(0);
+    gameState.telescopeBottomRect = this.add.rectangle(0, 370, 900, 600, 0x000000, 0).setOrigin(0);
     gameState.telescopeBottomRect.setDepth(2);
-    gameState.telescopeLeftRect = this.add.rectangle(-520, 0, 900, 600, 0x000000, 1).setOrigin(0);
+    gameState.telescopeLeftRect = this.add.rectangle(-520, 0, 900, 600, 0x000000, 0).setOrigin(0);
     gameState.telescopeLeftRect.setDepth(2);
-    gameState.telescopeRightRect = this.add.rectangle(520, 0, 900, 600, 0x000000, 1).setOrigin(0);
+    gameState.telescopeRightRect = this.add.rectangle(520, 0, 900, 600, 0x000000, 0).setOrigin(0);
     gameState.telescopeRightRect.setDepth(2);
 
     gameState.bottomBar = this.add.rectangle(0, 600, 900, 700, 0x13102B, 1).setOrigin(0);
@@ -234,6 +237,37 @@ class GameScene extends Phaser.Scene {
 		const shootingStarGenLoop = this.time.addEvent({
 			delay: 1000,
 			callback: shootingStarGen,
+			callbackScope: this,
+			loop: true,
+		});
+
+    gameState.ufos = this.physics.add.group();
+
+		const ufoGen = () => {
+			const yCoord = Math.random() * 500 + 50;
+      // const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(-200,-100);
+      const ufo = gameState.ufos.create(-10, yCoord, 'ufo').setScale(0.1).setGravity(0,-200);
+      gameState.ufoTweens.push(this.add.tween({
+        targets: ufo,
+        duration: 3000,
+        x: 1000
+      }));
+      gameState.ufoTweens.push(this.add.tween({
+        targets: ufo,
+        delay: Math.random() * 100,
+        duration: 200,
+        y: "+=100",
+        yoyo: true,
+        hold: 500,
+        repeat: 5,
+        repeatDelay: 500
+      }));
+		}
+
+    const ufoGenLoop = this.time.addEvent({
+			// delay: Math.random() * 10000 + 20000,
+      delay: 2000,
+			callback: ufoGen,
 			callbackScope: this,
 			loop: true,
 		});
