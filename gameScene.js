@@ -206,6 +206,12 @@ class GameScene extends Phaser.Scene {
     gameState.telescopeRightRect = this.add.rectangle(520, 0, 900, 600, 0x000000, 1).setOrigin(0);
     gameState.telescopeRightRect.setDepth(2);
 
+    this.input.on("pointermove", (pointer) => {
+      if (pointer.y <= 600) {
+        this.moveTelescopeToPointer();
+      }
+    })
+
     // gameState.telescope.setAlpha(0);
     // gameState.telescopeTopRect.setAlpha(0);
     // gameState.telescopeBottomRect.setAlpha(0);
@@ -385,18 +391,18 @@ class GameScene extends Phaser.Scene {
 	}
 
 	update() {
-    if (this.input.activePointer.y <= 600) {
-      if (Math.abs(this.input.activePointer.x - gameState.pointerXPos) > 2 || Math.abs(this.input.activePointer.y - gameState.pointerYPos) > 2) {
-        gameState.pointerXPos = this.input.activePointer.x;
-        gameState.pointerYPos = this.input.activePointer.y;
-        gameState.telescope.x = gameState.pointerXPos;
-        gameState.telescope.y = gameState.pointerYPos;
-        gameState.telescopeTopRect.y = gameState.pointerYPos - 670;
-        gameState.telescopeBottomRect.y = gameState.pointerYPos + 70;
-        gameState.telescopeLeftRect.x = gameState.pointerXPos - 970;
-        gameState.telescopeRightRect.x = gameState.pointerXPos + 70;
-      }
-    }
+    // if (this.input.activePointer.y <= 600) {
+    //   if (Math.abs(this.input.activePointer.x - gameState.pointerXPos) > 2 || Math.abs(this.input.activePointer.y - gameState.pointerYPos) > 2) {
+    //     gameState.pointerXPos = this.input.activePointer.x;
+    //     gameState.pointerYPos = this.input.activePointer.y;
+    //     gameState.telescope.x = gameState.pointerXPos;
+    //     gameState.telescope.y = gameState.pointerYPos;
+    //     gameState.telescopeTopRect.y = gameState.pointerYPos - 670;
+    //     gameState.telescopeBottomRect.y = gameState.pointerYPos + 70;
+    //     gameState.telescopeLeftRect.x = gameState.pointerXPos - 970;
+    //     gameState.telescopeRightRect.x = gameState.pointerXPos + 70;
+    //   }
+    // }
     
 		// if (gameState.cursors.left.isDown) {
 		// 	gameState.player.setVelocityX(-160);
@@ -406,6 +412,17 @@ class GameScene extends Phaser.Scene {
 		// 	gameState.player.setVelocityX(0);
 		// }
 	}
+
+  moveTelescopeToPointer() {
+    gameState.pointerXPos = this.input.activePointer.x;
+    gameState.pointerYPos = this.input.activePointer.y;
+    gameState.telescope.x = gameState.pointerXPos;
+    gameState.telescope.y = gameState.pointerYPos;
+    gameState.telescopeTopRect.y = gameState.pointerYPos - 670;
+    gameState.telescopeBottomRect.y = gameState.pointerYPos + 70;
+    gameState.telescopeLeftRect.x = gameState.pointerXPos - 970;
+    gameState.telescopeRightRect.x = gameState.pointerXPos + 70;
+  }
 
   pickTarget() {
     let randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
