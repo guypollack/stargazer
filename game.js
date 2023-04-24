@@ -3,7 +3,7 @@ const gameState = {
 };
 
 const config = {
-	type: Phaser.AUTO,
+	type: Phaser.CANVAS,
 	width: 900,
 	height: 700,
 	backgroundColor: "b9eaff",
@@ -14,6 +14,10 @@ const config = {
 			enableBody: true,
 		}
 	},
+  fps: {
+    target: 10,
+    forceSetTimeOut: true
+  },
 	scene: [ GameScene ]
 };
 
