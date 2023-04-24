@@ -67,7 +67,7 @@ class GameScene extends Phaser.Scene {
         const bgColor = gameState.bgColors[0];
         const tile = this.add.rectangle(i, j, 100, 100, bgColor).setOrigin(0);
         tile.strokeColor = 0xa7f66c;
-        tile.isStroked = true;
+        // tile.isStroked = true;
         tile.lineWidth = 2
         tile.column = i / 100;
         tile.row = j / 100;
@@ -132,12 +132,58 @@ class GameScene extends Phaser.Scene {
 
     gameState.backgroundStars = this.add.group();
 
-    for (let i = 0; i < 1000; i++) {
+    const BackgroundStarDataWhite = [
+      '2'
+    ];
+    
+    const BackgroundStarDataYellow = [
+      '8'
+    ];
+
+    const BackgroundStarDataGrey = [
+      '1'
+    ];
+
+    const customPalette = {
+      0: "#e06f8b",
+      1: "#e06f8b",
+      2: "#e06f8b",
+      3: "#e06f8b",
+      4: "#e06f8b",
+      5: "#e06f8b",
+      6: "#e06f8b",
+      7: "#e06f8b",
+      8: "#e06f8b",
+      9: "#e06f8b",
+      A: "#e06f8b"
+    }
+    
+    this.textures.generate('backgroundStarWhite', { data: BackgroundStarDataWhite, pixelWidth: 2 });
+    this.textures.generate('backgroundStarYellow', { data: BackgroundStarDataYellow, pixelWidth: 2 });
+    this.textures.generate('backgroundStarGrey', { data: BackgroundStarDataGrey, pixelWidth: 2 });
+
+    for (let i = 0; i < 400; i++) {
       const randomXCoord = Math.random() * 900;
       const randomYCoord = Math.random() * 600;
-      const backgroundStarColor = gameState.backgroundStarColors[Math.floor(Math.random() * 2)];
-      const backgroundStar = this.add.rectangle(randomXCoord, randomYCoord, 2, 2, backgroundStarColor);
+      const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarWhite');
       gameState.backgroundStars.add(backgroundStar);
+    }
+
+    for (let i = 0; i < 400; i++) {
+      const randomXCoord = Math.random() * 900;
+      const randomYCoord = Math.random() * 600;
+      const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarYellow');
+      gameState.backgroundStars.add(backgroundStar);
+    }
+
+    for (let i = 0; i < 200; i++) {
+      const randomXCoord = Math.random() * 900;
+      const randomYCoord = Math.random() * 600;
+      const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarGrey');
+      gameState.backgroundStars.add(backgroundStar);
+    }
+
+    for (let backgroundStar of gameState.backgroundStars.children.entries) {
       gameState.backgroundStarTweens.push(this.tweens.add({
         targets: backgroundStar,
         duration: Math.random() * 1000 + 500,
@@ -146,6 +192,21 @@ class GameScene extends Phaser.Scene {
         yoyo: true
       }));
     }
+
+    // for (let i = 0; i < 1000; i++) {
+      // const randomXCoord = Math.random() * 900;
+      // const randomYCoord = Math.random() * 600;
+      // const backgroundStarColor = gameState.backgroundStarColors[Math.floor(Math.random() * 2)];
+      // const backgroundStar = this.add.rectangle(randomXCoord, randomYCoord, 2, 2, backgroundStarColor);
+      // gameState.backgroundStars.add(backgroundStar);
+      // gameState.backgroundStarTweens.push(this.tweens.add({
+      //   targets: backgroundStar,
+      //   duration: Math.random() * 1000 + 500,
+      //   alpha: 0.5,
+      //   repeat: -1,
+      //   yoyo: true
+      // }));
+    // }
 
 
     for (let i = 0; i < gameState.backgroundTiles.children.entries.length; i++) {
@@ -160,13 +221,13 @@ class GameScene extends Phaser.Scene {
         const starImage = gameState.starImages[Math.floor(Math.random() * gameState.starImages.length)];
         const starScale = (Math.random() * 0.3) + 0.3;
         const star = this.add.image(xCoord, yCoord, starImage).setScale(starScale);
-        gameState.starTweens.push(this.tweens.add({
-          targets: star,
-          duration: Math.random() * 3000 + 1000,
-          alpha: 0.5,
-          repeat: -1,
-          yoyo: true
-        }));
+        // gameState.starTweens.push(this.tweens.add({
+        //   targets: star,
+        //   duration: Math.random() * 3000 + 1000,
+        //   alpha: 0.5,
+        //   repeat: -1,
+        //   yoyo: true
+        // }));
         gameState.backgroundTiles.children.entries[i].stars.add(star);
         const starCircle = this.add.circle(star.x, star.y, star.width * star._scaleX, 0x19fa4d, 0.3);
         starCircle.visible = false;
@@ -250,12 +311,12 @@ class GameScene extends Phaser.Scene {
 			const xCoord = Math.random() * 900;
       // const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(-200,-100);
       const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(-2000,2000);
-      gameState.shootingStarTweens.push(this.add.tween({
-        targets: shootingStar,
-        duration: 1000,
-        scaleX: 1.05,
-        scaleY: 1.05,
-      }));
+      // gameState.shootingStarTweens.push(this.add.tween({
+      //   targets: shootingStar,
+      //   duration: 1000,
+      //   scaleX: 1.05,
+      //   scaleY: 1.05,
+      // }));
       // shootingStar.body.bounce.x = 1;
       // shootingStar.body.bounce.y = 1;
       // shootingStar.body.collideWorldBounds = true;
@@ -274,21 +335,21 @@ class GameScene extends Phaser.Scene {
 			const yCoord = Math.random() * 400 + 50;
       // const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(-200,-100);
       const ufo = gameState.ufos.create(-10, yCoord, 'ufo').setScale(0.1).setGravity(0,-200);
-      gameState.ufoTweens.push(this.add.tween({
-        targets: ufo,
-        duration: 3000,
-        x: 1000
-      }));
-      gameState.ufoTweens.push(this.add.tween({
-        targets: ufo,
-        delay: Math.random() * 100,
-        duration: 200,
-        y: "+=100",
-        yoyo: true,
-        hold: 500,
-        repeat: 5,
-        repeatDelay: 500
-      }));
+      // gameState.ufoTweens.push(this.add.tween({
+      //   targets: ufo,
+      //   duration: 3000,
+      //   x: 1000
+      // }));
+      // gameState.ufoTweens.push(this.add.tween({
+      //   targets: ufo,
+      //   delay: Math.random() * 100,
+      //   duration: 200,
+      //   y: "+=100",
+      //   yoyo: true,
+      //   hold: 500,
+      //   repeat: 5,
+      //   repeatDelay: 500
+      // }));
 		}
 
     const ufoGenLoop = this.time.addEvent({
