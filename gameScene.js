@@ -67,7 +67,7 @@ class GameScene extends Phaser.Scene {
         const bgColor = gameState.bgColors[0];
         const tile = this.add.rectangle(i, j, 100, 100, bgColor).setOrigin(0);
         tile.strokeColor = 0xa7f66c;
-        // tile.isStroked = true;
+        tile.isStroked = true;
         tile.lineWidth = 2
         tile.column = i / 100;
         tile.row = j / 100;
@@ -149,6 +149,7 @@ class GameScene extends Phaser.Scene {
 
 
     for (let i = 0; i < gameState.backgroundTiles.children.entries.length; i++) {
+      if (Math.random() < 0.75) continue;
       gameState.backgroundTiles.children.entries[i].stars = this.add.group();
       gameState.backgroundTiles.children.entries[i].starCircles = this.add.group();
       for (let j = 0; j < 4; j++) {
@@ -212,11 +213,11 @@ class GameScene extends Phaser.Scene {
       }
     })
 
-    // gameState.telescope.setAlpha(0);
-    // gameState.telescopeTopRect.setAlpha(0);
-    // gameState.telescopeBottomRect.setAlpha(0);
-    // gameState.telescopeLeftRect.setAlpha(0);
-    // gameState.telescopeRightRect.setAlpha(0);
+    gameState.telescope.setAlpha(0);
+    gameState.telescopeTopRect.setAlpha(0);
+    gameState.telescopeBottomRect.setAlpha(0);
+    gameState.telescopeLeftRect.setAlpha(0);
+    gameState.telescopeRightRect.setAlpha(0);
 
     gameState.bottomBar = this.add.rectangle(0, 600, 900, 700, 0x13102B, 1).setOrigin(0);
     gameState.bottomBar.setDepth(2);
@@ -425,20 +426,25 @@ class GameScene extends Phaser.Scene {
   }
 
   pickTarget() {
-    let randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
+    const populatedTiles = gameState.backgroundTiles.children.entries.filter(entry => !!entry.stars);
+    // console.log(populatedTiles);
+    let randStarNumber = populatedTiles[Math.floor(Math.random() * populatedTiles.length)].number;
 
-    while (gameState.backgroundTiles.children.entries[randNumber].found) {
-      randNumber = Math.floor(Math.random() * gameState.backgroundTiles.children.entries.length);
+    while (gameState.backgroundTiles.children.entries[randStarNumber].found) {
+      randStarNumber = populatedTiles[Math.floor(Math.random() * populatedTiles.length)].number;
     }
 
-    console.log(randNumber);
+    // const targetTile = populatedTiles[randNumber];
+    // console.log(targetTile);
+
+    // console.log(randStarNumber);
 
     // gameState.target.clear(true);
 
     // const targetSquare = this.add.rectangle(400, 600, 100, 100, 0x000000).setOrigin(0);
     // gameState.target.add(targetSquare);
 
-    gameState.target.number = randNumber;
+    gameState.target.number = randStarNumber;
 
     if (gameState.target.stars) {
       gameState.target.stars.clear(true);
@@ -446,10 +452,11 @@ class GameScene extends Phaser.Scene {
       gameState.target.stars = this.add.group();
     }
     
-    gameState.target.xOrigin = gameState.backgroundTiles.children.entries[randNumber].x;
-    gameState.target.yOrigin = gameState.backgroundTiles.children.entries[randNumber].y;
-    // console.log(randNumber);
-    gameState.backgroundTiles.children.entries[randNumber].stars.children.entries.forEach(star => {
+    gameState.target.xOrigin = gameState.backgroundTiles.children.entries[randStarNumber].x;
+    gameState.target.yOrigin = gameState.backgroundTiles.children.entries[randStarNumber].y;
+    // console.log(gameState.target.number);
+    // console.log(gameState.backgroundTiles);
+    gameState.backgroundTiles.children.entries[randStarNumber].stars.children.entries.forEach(star => {
       const xOffset = star.x - gameState.target.xOrigin;
       const yOffset = star.y - gameState.target.yOrigin;
       const starToGenerate = this.add.image(400 + xOffset, 600 + yOffset, star.texture.key).setScale(star._scaleX);
