@@ -13,12 +13,16 @@ class GameScene extends Phaser.Scene {
     this.load.image('star1', './star-1.png');
     this.load.image('star2', './star-2.png');
     this.load.image('star3', './star-3.png');
+    this.load.image('star4', './star-4.png');
+    this.load.image('star5', './star-5.png');
     this.load.image('shootingStar', './shooting-star.png');
     this.load.image('ufo', './ufo-test.png');
 	}
 
 
 	create() {
+
+    this.time.desiredFps = 10;
 
     game.canvas.style.cursor = "none";
 
@@ -34,7 +38,7 @@ class GameScene extends Phaser.Scene {
     gameState.backgroundStarColors = [0xFCFEDD, 0xFDFCAD];
     gameState.backgroundStarTweens = [];
 
-    gameState.starImages = ["star1","star2","star3"];
+    gameState.starImages = ["star1","star2","star3","star4","star5"];
     gameState.starTweens = [];
 
     gameState.isTakingPicture = false;
@@ -201,6 +205,12 @@ class GameScene extends Phaser.Scene {
     gameState.telescopeLeftRect.setDepth(2);
     gameState.telescopeRightRect = this.add.rectangle(520, 0, 900, 600, 0x000000, 1).setOrigin(0);
     gameState.telescopeRightRect.setDepth(2);
+
+    // gameState.telescope.setAlpha(0);
+    // gameState.telescopeTopRect.setAlpha(0);
+    // gameState.telescopeBottomRect.setAlpha(0);
+    // gameState.telescopeLeftRect.setAlpha(0);
+    // gameState.telescopeRightRect.setAlpha(0);
 
     gameState.bottomBar = this.add.rectangle(0, 600, 900, 700, 0x13102B, 1).setOrigin(0);
     gameState.bottomBar.setDepth(2);
