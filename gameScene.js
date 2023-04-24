@@ -24,7 +24,7 @@ class GameScene extends Phaser.Scene {
 
     this.time.desiredFps = 10;
 
-    game.canvas.style.cursor = "none";
+    // game.canvas.style.cursor = "none";
 
     gameState.bgColors = {
       0: 0x13102B,
@@ -72,7 +72,7 @@ class GameScene extends Phaser.Scene {
         tile.column = i / 100;
         tile.row = j / 100;
         tile.number = ((i * 6 + j) / 100);
-        tile.found = false;
+        // tile.found = false;
         tile.setInteractive();
         tile.on('pointerup', () => {
           if (!gameState.isTakingPicture) {
@@ -182,6 +182,8 @@ class GameScene extends Phaser.Scene {
       // console.log(tile);
 
     }
+
+    gameState.targetTiles = gameState.backgroundTiles.children.entries.filter(entry => !!entry.stars).sort((a, b) => 0.5 - Math.random());
 
     // console.log(gameState.stars);
     // gameState.telescope = this.add.circle(450, 300, 700, 0xFFFFFF, 0);
@@ -426,23 +428,14 @@ class GameScene extends Phaser.Scene {
   }
 
   pickTarget() {
-    const populatedTiles = gameState.backgroundTiles.children.entries.filter(entry => !!entry.stars);
-    // console.log(populatedTiles);
-    let randStarNumber = populatedTiles[Math.floor(Math.random() * populatedTiles.length)].number;
-
-    while (gameState.backgroundTiles.children.entries[randStarNumber].found) {
-      randStarNumber = populatedTiles[Math.floor(Math.random() * populatedTiles.length)].number;
-    }
-
-    // const targetTile = populatedTiles[randNumber];
-    // console.log(targetTile);
-
+    // console.log(gameState.targetTiles.map(tile => tile.number));
+    // let randStarNumber = gameState.targetTiles[Math.floor(Math.random() * gameState.targetTiles.length)].number;
+    let randStarNumber = gameState.targetTiles.shift().number;
     // console.log(randStarNumber);
 
-    // gameState.target.clear(true);
-
-    // const targetSquare = this.add.rectangle(400, 600, 100, 100, 0x000000).setOrigin(0);
-    // gameState.target.add(targetSquare);
+    // while (gameState.backgroundTiles.children.entries[randStarNumber].found) {
+    //   randStarNumber = gameState.targetTiles[Math.floor(Math.random() * gameState.targetTiles.length)].number;
+    // }
 
     gameState.target.number = randStarNumber;
 
@@ -466,7 +459,7 @@ class GameScene extends Phaser.Scene {
   }
 
   markCorrect(number) {
-    gameState.backgroundTiles.children.entries[number].found = true;
+    // gameState.backgroundTiles.children.entries[number].found = true;
     gameState.backgroundTiles.children.entries[number].stars.children.entries.forEach(star => {
       star.setTint(0x19fa4d);
     })
@@ -476,7 +469,8 @@ class GameScene extends Phaser.Scene {
   }
 
   isGameFinished() {
-    return gameState.backgroundTiles.children.entries.every(tile => tile.found);
+    return gameState.targetTiles.length === 0;
+    // return gameState.backgroundTiles.children.entries.every(tile => tile.found);
   }
 
 }
