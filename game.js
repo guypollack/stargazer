@@ -5,7 +5,7 @@ const gameState = {
 const config = {
 	type: Phaser.CANVAS,
 	width: 900,
-	height: 700,
+	height: 720,
 	backgroundColor: "b9eaff",
 	physics: {
 		default: 'arcade',

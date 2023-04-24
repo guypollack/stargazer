@@ -130,6 +130,45 @@ class GameScene extends Phaser.Scene {
 
     // gameState.stars = this.add.group();
 
+    gameState.counterBars = this.add.group();
+
+    const counterBarData = [
+      'BBB',
+      'BAA',
+      'BAA',
+      'BAA',
+      'BAA',
+      'BAA',
+      'BAA',
+      'BAA'
+    ];
+
+    this.textures.generate('counterBar', { data: counterBarData, pixelWidth: 2 });
+    // const counterBarImage = this.add.rectangle(10, 700, 20, 710, 0xFFFFFF).setOrigin(0);
+    
+    for (let i = 0; i < 890; i += 10) {
+      const counterBarImage = this.add.image(i + 7, 700, 'counterBar').setOrigin(0);
+      gameState.counterBars.add(counterBarImage);
+      counterBarImage.setDepth(4);
+    }
+
+    const counterReduceLoop = this.time.addEvent({
+			delay: 100,
+			callback: () => {
+        if (gameState.counterBars.children.entries.length > 0) {
+          const lastIndex = gameState.counterBars.children.entries.length - 1;
+          gameState.counterBars.children.entries[lastIndex].destroy();
+        } else {
+          this.gameOver();
+          counterReduceLoop.destroy();
+        }
+      },
+			callbackScope: this,
+			loop: true,
+		});
+    
+    
+
     gameState.backgroundStars = this.add.group();
 
     const BackgroundStarDataWhite = [
@@ -532,6 +571,10 @@ class GameScene extends Phaser.Scene {
   isGameFinished() {
     return gameState.targetTiles.length === 0;
     // return gameState.backgroundTiles.children.entries.every(tile => tile.found);
+  }
+
+  gameOver() {
+    alert("You ran out of time!");
   }
 
 }
