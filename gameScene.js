@@ -17,10 +17,26 @@ class GameScene extends Phaser.Scene {
     this.load.image('star5', './star-5.png');
     this.load.image('shootingStar', './shooting-star.png');
     this.load.image('ufo', './ufo-test.png');
+    this.load.audio('backgroundMusic', './background-music.mp3');
+    this.load.audio('cameraShutter', './camera-shutter.mp3'); // Sound Effect by irinairinafomicheva on Pixabay - https://pixabay.com/sound-effects/camera-13695/
+    this.load.audio('correctAnswer', './correct-answer.mp3');// Sound Effect by UNIVERSFIELD on Pixabay - https://pixabay.com/sound-effects/interface-124464/
+    this.load.audio('wrongAnswer', './wrong-answer.mp3'); // Sound Effect by Gronkjaer on Pixabay - https://pixabay.com/sound-effects/wronganswer-37702/
+    this.load.audio('shootingStar', './shooting-star.mp3'); // Sound Effect by plasterbrain on Pixabay - https://pixabay.com/sound-effects/shooting-star-2-104073/
+    this.load.audio('ufo', './ufo.mp3'); // Sound Effect by Sky Motion on Pixabay - https://pixabay.com/sound-effects/data-reveal-sound-6460/
 	}
 
 
 	create() {
+
+    gameState.currentMusic = this.sound.add('backgroundMusic');
+    gameState.currentMusic.play({ loop: true });
+
+    gameState.sfx = {};
+    gameState.sfx.cameraShutter = this.sound.add('cameraShutter', {volume: 0.2});
+    gameState.sfx.correctAnswer = this.sound.add('correctAnswer', {volume: 0.2});
+    gameState.sfx.wrongAnswer = this.sound.add('wrongAnswer', {volume: 0.5});
+    gameState.sfx.shootingStar = this.sound.add('shootingStar', {volume: 0.5});
+    gameState.sfx.ufo = this.sound.add('ufo', {volume: 1});
 
     this.time.desiredFps = 10;
 
@@ -77,6 +93,7 @@ class GameScene extends Phaser.Scene {
         tile.on('pointerup', () => {
           if (!gameState.isTakingPicture) {
             gameState.isTakingPicture = true;
+            gameState.sfx.cameraShutter.play();
             this.tweens.add({
               targets: gameState.telescope,
               lineWidth: 200,
@@ -91,6 +108,10 @@ class GameScene extends Phaser.Scene {
           if (tile.number === gameState.target.number) {
             // alert("You win!");
             setTimeout(() => {
+              gameState.sfx.correctAnswer.play();              
+            }, 200);
+
+            setTimeout(() => {
               this.markCorrect(tile.number);
             }, 200)
             if (this.isGameFinished()) {
@@ -102,6 +123,10 @@ class GameScene extends Phaser.Scene {
             } else {
               this.pickTarget(); 
             }
+          } else {
+            setTimeout(() => {
+              gameState.sfx.wrongAnswer.play();              
+            }, 300);
           }
         })
         gameState.backgroundTiles.add(tile);
@@ -153,7 +178,7 @@ class GameScene extends Phaser.Scene {
     }
 
     const counterReduceLoop = this.time.addEvent({
-			delay: 100,
+			delay: 3000,
 			callback: () => {
         if (gameState.counterBars.children.entries.length > 0) {
           const lastIndex = gameState.counterBars.children.entries.length - 1;
@@ -404,6 +429,7 @@ class GameScene extends Phaser.Scene {
 
     this.physics.add.overlap(gameState.telescope, gameState.shootingStars, () => {
       if (gameState.shootingStarDetectionEnabled) {
+        gameState.sfx.shootingStar.play();
         console.log("Shooting star sighted");
         gameState.shootingStarDetectionEnabled = false;
         setTimeout(() => {
@@ -417,6 +443,7 @@ class GameScene extends Phaser.Scene {
     })
 
     this.physics.add.overlap(gameState.telescope, gameState.ufos, () => {
+      gameState.sfx.ufo.play();
       if (gameState.ufoDetectionEnabled) {
         console.log("UFO sighted");
         gameState.ufoDetectionEnabled = false;
