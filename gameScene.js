@@ -221,13 +221,13 @@ class GameScene extends Phaser.Scene {
         const starImage = gameState.starImages[Math.floor(Math.random() * gameState.starImages.length)];
         const starScale = (Math.random() * 0.3) + 0.3;
         const star = this.add.image(xCoord, yCoord, starImage).setScale(starScale);
-        // gameState.starTweens.push(this.tweens.add({
-        //   targets: star,
-        //   duration: Math.random() * 3000 + 1000,
-        //   alpha: 0.5,
-        //   repeat: -1,
-        //   yoyo: true
-        // }));
+        gameState.starTweens.push(this.tweens.add({
+          targets: star,
+          duration: Math.random() * 3000 + 1000,
+          alpha: 0.5,
+          repeat: -1,
+          yoyo: true
+        }));
         gameState.backgroundTiles.children.entries[i].stars.add(star);
         const starCircle = this.add.circle(star.x, star.y, star.width * star._scaleX, 0x19fa4d, 0.3);
         starCircle.visible = false;
@@ -276,11 +276,11 @@ class GameScene extends Phaser.Scene {
       }
     })
 
-    gameState.telescope.setAlpha(0);
-    gameState.telescopeTopRect.setAlpha(0);
-    gameState.telescopeBottomRect.setAlpha(0);
-    gameState.telescopeLeftRect.setAlpha(0);
-    gameState.telescopeRightRect.setAlpha(0);
+    // gameState.telescope.setAlpha(0);
+    // gameState.telescopeTopRect.setAlpha(0);
+    // gameState.telescopeBottomRect.setAlpha(0);
+    // gameState.telescopeLeftRect.setAlpha(0);
+    // gameState.telescopeRightRect.setAlpha(0);
 
     gameState.bottomBar = this.add.rectangle(0, 600, 900, 700, 0x13102B, 1).setOrigin(0);
     gameState.bottomBar.setDepth(2);
@@ -311,12 +311,12 @@ class GameScene extends Phaser.Scene {
 			const xCoord = Math.random() * 900;
       // const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(-200,-100);
       const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(-2000,2000);
-      // gameState.shootingStarTweens.push(this.add.tween({
-      //   targets: shootingStar,
-      //   duration: 1000,
-      //   scaleX: 1.05,
-      //   scaleY: 1.05,
-      // }));
+      gameState.shootingStarTweens.push(this.add.tween({
+        targets: shootingStar,
+        duration: 1000,
+        scaleX: 1.05,
+        scaleY: 1.05,
+      }));
       // shootingStar.body.bounce.x = 1;
       // shootingStar.body.bounce.y = 1;
       // shootingStar.body.collideWorldBounds = true;
@@ -335,21 +335,21 @@ class GameScene extends Phaser.Scene {
 			const yCoord = Math.random() * 400 + 50;
       // const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(-200,-100);
       const ufo = gameState.ufos.create(-10, yCoord, 'ufo').setScale(0.1).setGravity(0,-200);
-      // gameState.ufoTweens.push(this.add.tween({
-      //   targets: ufo,
-      //   duration: 3000,
-      //   x: 1000
-      // }));
-      // gameState.ufoTweens.push(this.add.tween({
-      //   targets: ufo,
-      //   delay: Math.random() * 100,
-      //   duration: 200,
-      //   y: "+=100",
-      //   yoyo: true,
-      //   hold: 500,
-      //   repeat: 5,
-      //   repeatDelay: 500
-      // }));
+      gameState.ufoTweens.push(this.add.tween({
+        targets: ufo,
+        duration: 3000,
+        x: 1000
+      }));
+      gameState.ufoTweens.push(this.add.tween({
+        targets: ufo,
+        delay: Math.random() * 100,
+        duration: 200,
+        y: "+=100",
+        yoyo: true,
+        hold: 500,
+        repeat: 5,
+        repeatDelay: 500
+      }));
 		}
 
     const ufoGenLoop = this.time.addEvent({
