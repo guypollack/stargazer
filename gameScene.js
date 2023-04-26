@@ -17,7 +17,7 @@ class GameScene extends Phaser.Scene {
     this.load.image('star5', './star-5.png');
     this.load.image('shootingStar', './shooting-star.png');
     this.load.image('ufo', './ufo-test.png');
-    this.load.audio('backgroundMusic', './background-music.mp3');
+    this.load.audio('backgroundMusic', './background-music-2.mp3'); // Music - Interstellar Journer © 2016 MRM TEAM
     this.load.audio('cameraShutter', './camera-shutter.mp3'); // Sound Effect by irinairinafomicheva on Pixabay - https://pixabay.com/sound-effects/camera-13695/
     this.load.audio('correctAnswer', './correct-answer.mp3');// Sound Effect by UNIVERSFIELD on Pixabay - https://pixabay.com/sound-effects/interface-124464/
     this.load.audio('wrongAnswer', './wrong-answer.mp3'); // Sound Effect by Gronkjaer on Pixabay - https://pixabay.com/sound-effects/wronganswer-37702/
