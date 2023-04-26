@@ -28,7 +28,7 @@ class GameScene extends Phaser.Scene {
 
 	create() {
 
-    gameState.currentMusic = this.sound.add('backgroundMusic');
+    gameState.currentMusic = this.sound.add('backgroundMusic', {volume: 0.5});
     gameState.currentMusic.play({ loop: true });
 
     gameState.sfx = {};
