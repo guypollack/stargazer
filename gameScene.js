@@ -226,36 +226,36 @@ class GameScene extends Phaser.Scene {
     this.textures.generate('backgroundStarYellow', { data: BackgroundStarDataYellow, pixelWidth: 2 });
     this.textures.generate('backgroundStarGrey', { data: BackgroundStarDataGrey, pixelWidth: 2 });
 
-    for (let i = 0; i < 400; i++) {
-      const randomXCoord = Math.random() * 900;
-      const randomYCoord = Math.random() * 600;
-      const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarWhite');
-      gameState.backgroundStars.add(backgroundStar);
-    }
+    // for (let i = 0; i < 400; i++) {
+    //   const randomXCoord = Math.random() * 900;
+    //   const randomYCoord = Math.random() * 600;
+    //   const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarWhite');
+    //   gameState.backgroundStars.add(backgroundStar);
+    // }
 
-    for (let i = 0; i < 400; i++) {
-      const randomXCoord = Math.random() * 900;
-      const randomYCoord = Math.random() * 600;
-      const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarYellow');
-      gameState.backgroundStars.add(backgroundStar);
-    }
+    // for (let i = 0; i < 400; i++) {
+    //   const randomXCoord = Math.random() * 900;
+    //   const randomYCoord = Math.random() * 600;
+    //   const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarYellow');
+    //   gameState.backgroundStars.add(backgroundStar);
+    // }
 
-    for (let i = 0; i < 200; i++) {
-      const randomXCoord = Math.random() * 900;
-      const randomYCoord = Math.random() * 600;
-      const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarGrey');
-      gameState.backgroundStars.add(backgroundStar);
-    }
+    // for (let i = 0; i < 200; i++) {
+    //   const randomXCoord = Math.random() * 900;
+    //   const randomYCoord = Math.random() * 600;
+    //   const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarGrey');
+    //   gameState.backgroundStars.add(backgroundStar);
+    // }
 
-    for (let backgroundStar of gameState.backgroundStars.children.entries) {
-      this.tweens.add({
-        targets: backgroundStar,
-        duration: Math.random() * 1000 + 500,
-        alpha: 0.5,
-        repeat: -1,
-        yoyo: true
-      });
-    }
+    // for (let backgroundStar of gameState.backgroundStars.children.entries) {
+    //   this.tweens.add({
+    //     targets: backgroundStar,
+    //     duration: Math.random() * 1000 + 500,
+    //     alpha: 0.5,
+    //     repeat: -1,
+    //     yoyo: true
+    //   });
+    // }
 
     // for (let i = 0; i < 1000; i++) {
       // const randomXCoord = Math.random() * 900;
