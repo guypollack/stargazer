@@ -18,7 +18,7 @@ const config = {
     target: 10,
     forceSetTimeOut: true
   },
-	scene: [ StartScene, TutorialScene, GameScene, EndScene ]
+	scene: [ LoadingScene, StartScene, TutorialScene, GameScene, EndScene ]
 };
 
 const game = new Phaser.Game(config);
