@@ -742,7 +742,6 @@ class GameScene extends Phaser.Scene {
   }
 
   loseTime(amount) {
-    if (gameState.counterBars.children.entries.length < 5) this.isGameFinished();
     const uBound = gameState.counterBars.children.entries.length - 1;
     const lBound = uBound - amount >= -1 ? uBound - amount : -1;
     for (let i = uBound; i > lBound; i--) {
