@@ -70,6 +70,9 @@ class GameScene extends Phaser.Scene {
     gameState.shootingStarDetectionEnabled = true;
     gameState.ufoDetectionEnabled = true;
 
+    gameState.events = [];
+    gameState.processingEvent = false;
+
     gameState.canvasWidth = document.querySelector("canvas").offsetWidth;
     gameState.canvasHeight = document.querySelector("canvas").offsetHeight;
 
@@ -110,12 +113,11 @@ class GameScene extends Phaser.Scene {
           
           if (tile.number === gameState.target.number) {
             // alert("You win!");
-            setTimeout(() => {
-              gameState.sfx.correctAnswer.play();              
-            }, 200);
+            gameState.events.push("correct");
 
             setTimeout(() => {
               this.markCorrect(tile.number);
+              gameState.sfx.correctAnswer.play();
             }, 200)
             if (this.isGameFinished()) {
 
@@ -196,7 +198,8 @@ class GameScene extends Phaser.Scene {
 			loop: true,
 		});
     
-    
+    gameState.scoreText = this.add.text(20, 610, `Score: ${gameState.score}`, {fontFamily: 'Courier New', fontSize: 32, color: '#a3ce27'});
+    gameState.scoreText.setDepth(4);
 
     gameState.backgroundStars = this.add.group();
 
@@ -240,6 +243,14 @@ class GameScene extends Phaser.Scene {
       const tileNumber = this.getCurrentTile(randomXCoord, randomYCoord);
       const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarWhite');
       // gameState.backgroundStars.add(backgroundStar);
+      backgroundStar.setVisible(false);
+      this.tweens.add({
+        targets: backgroundStar,
+        duration: Math.random() * 1000 + 500,
+        alpha: 0.5,
+        repeat: -1,
+        yoyo: true
+      });
       gameState.backgroundTiles.children.entries[tileNumber].backgroundStars.add(backgroundStar);
     }
 
@@ -249,6 +260,14 @@ class GameScene extends Phaser.Scene {
       const tileNumber = this.getCurrentTile(randomXCoord, randomYCoord);
       const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarYellow');
       // gameState.backgroundStars.add(backgroundStar);
+      backgroundStar.setVisible(false);
+      this.tweens.add({
+        targets: backgroundStar,
+        duration: Math.random() * 1000 + 500,
+        alpha: 0.5,
+        repeat: -1,
+        yoyo: true
+      });
       gameState.backgroundTiles.children.entries[tileNumber].backgroundStars.add(backgroundStar);
     }
 
@@ -258,10 +277,6 @@ class GameScene extends Phaser.Scene {
       const tileNumber = this.getCurrentTile(randomXCoord, randomYCoord);
       const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarGrey');
       // gameState.backgroundStars.add(backgroundStar);
-      gameState.backgroundTiles.children.entries[tileNumber].backgroundStars.add(backgroundStar);
-    }
-
-    for (let backgroundStar of gameState.backgroundStars.children.entries) {
       backgroundStar.setVisible(false);
       this.tweens.add({
         targets: backgroundStar,
@@ -270,7 +285,19 @@ class GameScene extends Phaser.Scene {
         repeat: -1,
         yoyo: true
       });
+      gameState.backgroundTiles.children.entries[tileNumber].backgroundStars.add(backgroundStar);
     }
+
+    // for (let backgroundStar of gameState.backgroundStars.children.entries) {
+    //   backgroundStar.setVisible(false);
+    //   this.tweens.add({
+    //     targets: backgroundStar,
+    //     duration: Math.random() * 1000 + 500,
+    //     alpha: 0.5,
+    //     repeat: -1,
+    //     yoyo: true
+    //   });
+    // }
 
     // for (let i = 0; i < 1000; i++) {
       // const randomXCoord = Math.random() * 900;
@@ -447,6 +474,7 @@ class GameScene extends Phaser.Scene {
       if (gameState.shootingStarDetectionEnabled) {
         gameState.sfx.shootingStar.play();
         console.log("Shooting star sighted");
+        gameState.events.push("shooting star");
         gameState.shootingStarDetectionEnabled = false;
         setTimeout(() => {
           gameState.shootingStarDetectionEnabled = true;
@@ -462,6 +490,7 @@ class GameScene extends Phaser.Scene {
       gameState.sfx.ufo.play();
       if (gameState.ufoDetectionEnabled) {
         console.log("UFO sighted");
+        gameState.events.push("ufo");
         gameState.ufoDetectionEnabled = false;
         setTimeout(() => {
           gameState.ufoDetectionEnabled = true;
@@ -537,6 +566,13 @@ class GameScene extends Phaser.Scene {
 	}
 
 	update() {
+    if (gameState.events.length > 0) {
+      if (!gameState.processingEvent) {
+        gameState.processingEvent = true;
+        this.updateScore(gameState.events.shift());
+      }
+    }
+    
     // if (this.input.activePointer.y <= 600) {
     //   if (Math.abs(this.input.activePointer.x - gameState.pointerXPos) > 2 || Math.abs(this.input.activePointer.y - gameState.pointerYPos) > 2) {
     //     gameState.pointerXPos = this.input.activePointer.x;
@@ -609,6 +645,33 @@ class GameScene extends Phaser.Scene {
     gameState.backgroundTiles.children.entries[number].starCircles.children.entries.forEach(circle => {
       circle.visible = true;
     })
+  }
+
+  updateScore(event) {
+    let points;
+    let textToDisplay;
+    switch (event) {
+      case 'correct':
+        points = gameState.counterBars.children.entries.length * 10;
+        textToDisplay = `Well done! +${points} pts`;
+        break;
+      case 'shooting star':
+        points = 500;
+        textToDisplay = "Shooting star spotted! +500 pts";
+        break;
+      case 'ufo':
+        points = gameState.score;
+        textToDisplay = "UFO spotted! Doubling score!";
+        break;
+    }
+    gameState.score += points;
+    gameState.scoreText.setText(`Score: ${gameState.score}`);
+    gameState.comment = this.add.text(20, 660, textToDisplay, {fontFamily: 'Courier New', fontSize: 18, color: '#a3ce27'});
+    gameState.comment.setDepth(4);
+    setTimeout(() => {
+      gameState.comment.destroy();
+      gameState.processingEvent = false;
+    }, 2000);
   }
 
   getCurrentTile(x, y) {
