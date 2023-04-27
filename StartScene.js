@@ -4,18 +4,10 @@ class StartScene extends Phaser.Scene {
 	}
 
 	preload() {
-    this.load.image('shootingStar', './shooting-star.png');
-    this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
 	}
 
 
 	create() {
-    WebFont.load({
-      google: {
-          families: [ 'Rubik Moonrocks' ]
-      }
-    });
-
     const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     gameState.titleText = this.add.text(screenCenterX, 200, "STARGAZER", { fontSize: 100, fontFamily: "Rubik Moonrocks, Chalkduster" }).setOrigin(0.5);
     gameState.byText = this.add.text(screenCenterX, 280, "by Guy Pollack", { fontSize: 24, fontFamily: "Rubik Moonrocks, Chalkduster" }).setOrigin(0.5);
