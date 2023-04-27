@@ -4,7 +4,6 @@ class EndScene extends Phaser.Scene {
 	}
 
 	preload() {
-    this.load.image('shootingStar', './shooting-star.png');
 	}
 
 	create() {
