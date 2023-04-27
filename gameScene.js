@@ -90,6 +90,9 @@ class GameScene extends Phaser.Scene {
         tile.number = ((i * 6 + j) / 100);
         // tile.found = false;
         tile.setInteractive();
+        tile.on('pointerover', (pointer) => {
+          this.showNeighboringTiles(this.getCurrentTile(pointer.x, pointer.y));
+        })
         tile.on('pointerup', () => {
           if (!gameState.isTakingPicture) {
             gameState.isTakingPicture = true;
@@ -129,6 +132,7 @@ class GameScene extends Phaser.Scene {
             }, 300);
           }
         })
+        // tile.setAlpha(0);
         gameState.backgroundTiles.add(tile);
       }
     }
@@ -226,36 +230,47 @@ class GameScene extends Phaser.Scene {
     this.textures.generate('backgroundStarYellow', { data: BackgroundStarDataYellow, pixelWidth: 2 });
     this.textures.generate('backgroundStarGrey', { data: BackgroundStarDataGrey, pixelWidth: 2 });
 
-    // for (let i = 0; i < 400; i++) {
-    //   const randomXCoord = Math.random() * 900;
-    //   const randomYCoord = Math.random() * 600;
-    //   const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarWhite');
-    //   gameState.backgroundStars.add(backgroundStar);
-    // }
+    for (let i = 0; i < gameState.backgroundTiles.children.entries.length; i++) {
+      gameState.backgroundTiles.children.entries[i].backgroundStars = this.add.group();
+    }
 
-    // for (let i = 0; i < 400; i++) {
-    //   const randomXCoord = Math.random() * 900;
-    //   const randomYCoord = Math.random() * 600;
-    //   const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarYellow');
-    //   gameState.backgroundStars.add(backgroundStar);
-    // }
+    for (let i = 0; i < 400; i++) {
+      const randomXCoord = Math.random() * 900;
+      const randomYCoord = Math.random() * 600;
+      const tileNumber = this.getCurrentTile(randomXCoord, randomYCoord);
+      const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarWhite');
+      // gameState.backgroundStars.add(backgroundStar);
+      gameState.backgroundTiles.children.entries[tileNumber].backgroundStars.add(backgroundStar);
+    }
 
-    // for (let i = 0; i < 200; i++) {
-    //   const randomXCoord = Math.random() * 900;
-    //   const randomYCoord = Math.random() * 600;
-    //   const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarGrey');
-    //   gameState.backgroundStars.add(backgroundStar);
-    // }
+    for (let i = 0; i < 400; i++) {
+      const randomXCoord = Math.random() * 900;
+      const randomYCoord = Math.random() * 600;
+      const tileNumber = this.getCurrentTile(randomXCoord, randomYCoord);
+      const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarYellow');
+      // gameState.backgroundStars.add(backgroundStar);
+      gameState.backgroundTiles.children.entries[tileNumber].backgroundStars.add(backgroundStar);
+    }
 
-    // for (let backgroundStar of gameState.backgroundStars.children.entries) {
-    //   this.tweens.add({
-    //     targets: backgroundStar,
-    //     duration: Math.random() * 1000 + 500,
-    //     alpha: 0.5,
-    //     repeat: -1,
-    //     yoyo: true
-    //   });
-    // }
+    for (let i = 0; i < 200; i++) {
+      const randomXCoord = Math.random() * 900;
+      const randomYCoord = Math.random() * 600;
+      const tileNumber = this.getCurrentTile(randomXCoord, randomYCoord);
+      const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarGrey');
+      // gameState.backgroundStars.add(backgroundStar);
+      gameState.backgroundTiles.children.entries[tileNumber].backgroundStars.add(backgroundStar);
+    }
+
+    for (let backgroundStar of gameState.backgroundStars.children.entries) {
+      backgroundStar.setVisible(false);
+      this.tweens.add({
+        targets: backgroundStar,
+        duration: Math.random() * 1000 + 500,
+        alpha: 0.5,
+        repeat: -1,
+        yoyo: true
+      });
+    }
 
     // for (let i = 0; i < 1000; i++) {
       // const randomXCoord = Math.random() * 900;
@@ -292,6 +307,7 @@ class GameScene extends Phaser.Scene {
           repeat: -1,
           yoyo: true
         });
+        star.setVisible(false);
         gameState.backgroundTiles.children.entries[i].stars.add(star);
         const starCircle = this.add.circle(star.x, star.y, star.width * star._scaleX, 0x19fa4d, 0.3);
         starCircle.visible = false;
@@ -593,6 +609,72 @@ class GameScene extends Phaser.Scene {
     gameState.backgroundTiles.children.entries[number].starCircles.children.entries.forEach(circle => {
       circle.visible = true;
     })
+  }
+
+  getCurrentTile(x, y) {
+    const tileColumn = Math.floor(x / 100);
+    const tileRow = Math.floor(y / 100);
+    for (let tile of gameState.backgroundTiles.children.entries) {
+      if (tile.column === tileColumn && tile.row === tileRow) {
+        return tile.number;
+      }
+    }
+  }
+
+  getNeighbors(number) {
+    const tileColumn = gameState.backgroundTiles.children.entries[number].column;
+    const tileRow = gameState.backgroundTiles.children.entries[number].row;
+    const minColumn = 0;
+    const maxColumn = 8;
+    const minRow = 0;
+    const maxRow = 5;
+    const neighbors = [];
+    
+    for (let tile of gameState.backgroundTiles.children.entries) {
+      if (tile.column >= minColumn && tile.column <= maxColumn && Math.abs(tileColumn - tile.column) <= 1 && tile.row >= minRow && tile.row <= maxRow && Math.abs(tileRow - tile.row) <= 1) {
+        neighbors.push(tile.number);
+      }
+    }
+    return neighbors;
+  }
+
+  showNeighboringTiles(number) {
+    const neighbors = this.getNeighbors(number);
+    for (let tile of gameState.backgroundTiles.children.entries) {
+      if (neighbors.includes(tile.number)) {
+        // tile.setVisible(true);
+        if (tile.stars) {
+          for (let star of tile.stars.children.entries) {
+          star.setVisible(true);
+          }
+        }
+        if (tile.backgroundStars) {
+          for (let backgroundStar of tile.backgroundStars.children.entries) {
+            backgroundStar.setVisible(true);
+          }
+        }
+      } else {
+        // tile.setVisible(false);
+        if (tile.stars) {
+          for (let star of tile.stars.children.entries) {
+          star.setVisible(false);
+          }
+        }
+        if (tile.backgroundStars) {
+          for (let backgroundStar of tile.backgroundStars.children.entries) {
+            backgroundStar.setVisible(false);
+          }
+        }
+      }
+    }
+  }
+
+  showTileContents(number) {
+    if (gameState.backgroundTiles.children.entries[number].stars) {
+      for (let star of gameState.backgroundTiles.children.entries[number].stars.children.entries) {
+        star.setVisible(true);
+      }
+    }
   }
 
   isGameFinished() {
