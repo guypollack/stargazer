@@ -6,7 +6,7 @@ const config = {
 	type: Phaser.CANVAS,
 	width: 900,
 	height: 720,
-	backgroundColor: "b9eaff",
+	backgroundColor: "13102B",
 	physics: {
 		default: 'arcade',
 		arcade: {
@@ -18,7 +18,7 @@ const config = {
     target: 10,
     forceSetTimeOut: true
   },
-	scene: [ GameScene ]
+	scene: [ StartScene, TutorialScene, GameScene, EndScene ]
 };
 
 const game = new Phaser.Game(config);
