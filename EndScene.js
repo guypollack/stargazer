@@ -5,21 +5,14 @@ class EndScene extends Phaser.Scene {
 
 	preload() {
     this.load.image('shootingStar', './shooting-star.png');
-    this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
 	}
 
 	create() {
-    WebFont.load({
-      google: {
-          families: [ 'Rubik Moonrocks' ]
-      }
-    });
-
     game.canvas.style.cursor = "default";
 
     const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
-    gameState.titleText = this.add.text(screenCenterX, 200, gameState.endSceneText, { fontSize: 100, fontFamily: "Rubik Moonrocks" }).setOrigin(0.5);
-    gameState.scoreText = this.add.text(screenCenterX, 320, `Your score was ${gameState.score} points`, { fontSize: 42, fontFamily: "Rubik Moonrocks" }).setOrigin(0.5);
+    gameState.titleText = this.add.text(screenCenterX, 200, gameState.endSceneText, { fontSize: 100, fontFamily: "Rubik Moonrocks, Chalkduster" }).setOrigin(0.5);
+    gameState.scoreText = this.add.text(screenCenterX, 320, `Your score was ${gameState.score} points`, { fontSize: 42, fontFamily: "Rubik Moonrocks, Chalkduster" }).setOrigin(0.5);
 
     gameState.backgroundStars = this.add.group();
 
