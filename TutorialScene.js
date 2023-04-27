@@ -11,11 +11,6 @@ class TutorialScene extends Phaser.Scene {
 
 
 	create() {
-    WebFont.load({
-      google: {
-          families: [ 'Rubik Moonrocks' ]
-      }
-    });
 
     const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
 
