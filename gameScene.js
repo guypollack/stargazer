@@ -129,6 +129,7 @@ class GameScene extends Phaser.Scene {
               this.pickTarget(); 
             }
           } else {
+            this.loseTime(5);
             setTimeout(() => {
               gameState.sfx.wrongAnswer.play();              
             }, 300);
@@ -737,6 +738,15 @@ class GameScene extends Phaser.Scene {
       for (let star of gameState.backgroundTiles.children.entries[number].stars.children.entries) {
         star.setVisible(true);
       }
+    }
+  }
+
+  loseTime(amount) {
+    if (gameState.counterBars.children.entries.length < 5) this.isGameFinished();
+    const uBound = gameState.counterBars.children.entries.length - 1;
+    const lBound = uBound - amount >= -1 ? uBound - amount : -1;
+    for (let i = uBound; i > lBound; i--) {
+      gameState.counterBars.children.entries[i].destroy();
     }
   }
 
