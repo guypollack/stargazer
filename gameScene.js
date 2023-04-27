@@ -45,7 +45,7 @@ class GameScene extends Phaser.Scene {
 
     this.time.desiredFps = 10;
 
-    // game.canvas.style.cursor = "none";
+    game.canvas.style.cursor = "none";
 
     gameState.bgColors = {
       0: 0x13102B,
