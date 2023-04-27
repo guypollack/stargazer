@@ -128,7 +128,10 @@ class GameScene extends Phaser.Scene {
             if (this.isGameFinished()) {
 
               setTimeout(() => {
-                alert("You win!");
+                // alert("You win!");
+                gameState.endSceneText = "YOU WON!";
+                this.scene.stop("GameScene");
+                this.scene.start("EndScene");
               }, 200);
 
             } else {
@@ -236,7 +239,7 @@ class GameScene extends Phaser.Scene {
       A: "#e06f8b"
     }
     
-    this.textures.generate('backgroundStarWhite', { data: BackgroundStarDataWhite, pixelWidth: 2 });
+    // this.textures.generate('backgroundStarWhite', { data: BackgroundStarDataWhite, pixelWidth: 2 });
     this.textures.generate('backgroundStarYellow', { data: BackgroundStarDataYellow, pixelWidth: 2 });
     this.textures.generate('backgroundStarGrey', { data: BackgroundStarDataGrey, pixelWidth: 2 });
 
@@ -250,7 +253,7 @@ class GameScene extends Phaser.Scene {
       const tileNumber = this.getCurrentTile(randomXCoord, randomYCoord);
       const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarWhite');
       // gameState.backgroundStars.add(backgroundStar);
-      backgroundStar.setVisible(false);
+      backgroundStar.setVisible(tileNumber === 27);
       this.tweens.add({
         targets: backgroundStar,
         duration: Math.random() * 1000 + 500,
@@ -267,7 +270,7 @@ class GameScene extends Phaser.Scene {
       const tileNumber = this.getCurrentTile(randomXCoord, randomYCoord);
       const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarYellow');
       // gameState.backgroundStars.add(backgroundStar);
-      backgroundStar.setVisible(false);
+      backgroundStar.setVisible(tileNumber === 27);
       this.tweens.add({
         targets: backgroundStar,
         duration: Math.random() * 1000 + 500,
@@ -284,7 +287,7 @@ class GameScene extends Phaser.Scene {
       const tileNumber = this.getCurrentTile(randomXCoord, randomYCoord);
       const backgroundStar = this.add.image(randomXCoord, randomYCoord, 'backgroundStarGrey');
       // gameState.backgroundStars.add(backgroundStar);
-      backgroundStar.setVisible(false);
+      backgroundStar.setVisible(tileNumber === 27);
       this.tweens.add({
         targets: backgroundStar,
         duration: Math.random() * 1000 + 500,
@@ -423,8 +426,13 @@ class GameScene extends Phaser.Scene {
 
 		const shootingStarGen = () => {
 			const xCoord = Math.random() * 900;
-      // const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(-200,-100);
-      const shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(-2000,2000);
+      let shootingStar;
+      if (Math.random() > 0.5) {
+        shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(-2000,2000);
+      } else {
+        shootingStar = gameState.shootingStars.create(xCoord, 10, 'shootingStar').setScale(0.2).setGravity(2000,2000);
+        shootingStar.flipX = true;
+      }
       this.tweens.add({
         targets: shootingStar,
         duration: 1000,
@@ -477,7 +485,9 @@ class GameScene extends Phaser.Scene {
 
     const constellationGen = () => {
       setTimeout(() => {
-        gameState.constellations.children.entries[0].destroy();  
+        if (gameState.constellations.children.entries) {
+          gameState.constellations.children.entries[0].destroy();  
+        }
       }, 12000);
       gameState.constellations.appearanceTime = Date.now();
       const xCoord = Math.random() * 750 + 75;
@@ -804,7 +814,10 @@ class GameScene extends Phaser.Scene {
   }
 
   gameOver() {
-    alert("You ran out of time!");
+    // alert("You ran out of time!");
+    gameState.endSceneText = "GAME OVER";
+    this.scene.stop("GameScene");
+    this.scene.start("EndScene");
   }
 
 }
