@@ -17,16 +17,20 @@ class GameScene extends Phaser.Scene {
     this.load.image('star5', './star-5.png');
     this.load.image('shootingStar', './shooting-star.png');
     this.load.image('ufo', './ufo-test.png');
+    this.load.image('aquarius', './aquarius.png');
     this.load.audio('backgroundMusic', './background-music-2.mp3'); // Music - Interstellar Journer © 2016 MRM TEAM
     this.load.audio('cameraShutter', './camera-shutter.mp3'); // Sound Effect by irinairinafomicheva on Pixabay - https://pixabay.com/sound-effects/camera-13695/
     this.load.audio('correctAnswer', './correct-answer.mp3');// Sound Effect by UNIVERSFIELD on Pixabay - https://pixabay.com/sound-effects/interface-124464/
     this.load.audio('wrongAnswer', './wrong-answer.mp3'); // Sound Effect by Gronkjaer on Pixabay - https://pixabay.com/sound-effects/wronganswer-37702/
     this.load.audio('shootingStar', './shooting-star.mp3'); // Sound Effect by plasterbrain on Pixabay - https://pixabay.com/sound-effects/shooting-star-2-104073/
     this.load.audio('ufo', './ufo.mp3'); // Sound Effect by Sky Motion on Pixabay - https://pixabay.com/sound-effects/data-reveal-sound-6460/
+    this.load.audio('constellation', './constellation.mp3'); // Sound Effect by Leszek Szary on Pixabay - https://pixabay.com/sound-effects/success-1-6297/
 	}
 
 
 	create() {
+
+    gameState.startTime = Date.now();
 
     gameState.currentMusic = this.sound.add('backgroundMusic', {volume: 0.5});
     gameState.currentMusic.play({ loop: true });
@@ -37,6 +41,7 @@ class GameScene extends Phaser.Scene {
     gameState.sfx.wrongAnswer = this.sound.add('wrongAnswer', {volume: 0.5});
     gameState.sfx.shootingStar = this.sound.add('shootingStar', {volume: 0.5});
     gameState.sfx.ufo = this.sound.add('ufo', {volume: 1});
+    gameState.sfx.constellation = this.sound.add('constellation', {volume: 0.2});
 
     this.time.desiredFps = 10;
 
@@ -69,6 +74,7 @@ class GameScene extends Phaser.Scene {
 
     gameState.shootingStarDetectionEnabled = true;
     gameState.ufoDetectionEnabled = true;
+    gameState.constellationDetectionEnabled = true;
 
     gameState.events = [];
     gameState.processingEvent = false;
@@ -467,6 +473,37 @@ class GameScene extends Phaser.Scene {
 			loop: true,
 		});
 
+    gameState.constellations = this.physics.add.group();
+
+    const constellationGen = () => {
+      setTimeout(() => {
+        gameState.constellations.children.entries[0].destroy();  
+      }, 12000);
+      gameState.constellations.appearanceTime = Date.now();
+      const xCoord = Math.random() * 750 + 75;
+      const yCoord = Math.random() * 500 + 50;
+      const constellation = gameState.constellations.create(xCoord, yCoord, 'aquarius').setScale(0.25).setGravity(0,-200);
+      constellation.name = "aquarius";
+      constellation.setAlpha(0);
+      this.tweens.add({
+        targets: constellation,
+        alpha: 1,
+        duration: 1000,
+        yoyo: true,
+        repeat: 5
+      })
+    }
+
+    gameState.constellations.constellationLoopDelay = Math.random() * 10000 + 20000;
+
+    const constellationGenLoop = this.time.addEvent({
+			delay: gameState.constellations.constellationLoopDelay,
+			callback: constellationGen,
+			callbackScope: this,
+			loop: true
+		});
+
+    
     this.physics.add.overlap(gameState.boundaries, gameState.shootingStars, (boundary, shootingStar) => {
       shootingStar.destroy();
     })
@@ -496,6 +533,18 @@ class GameScene extends Phaser.Scene {
         setTimeout(() => {
           gameState.ufoDetectionEnabled = true;
         }, 500);
+      }
+    });
+
+    this.physics.add.overlap(gameState.telescope, gameState.constellations, (telescope, constellation) => {
+      if (gameState.constellationDetectionEnabled) {
+        gameState.sfx.constellation.play();
+        console.log(`${constellation.name} rising`);
+        gameState.events.push(`${constellation.name} rising`);
+        gameState.constellationDetectionEnabled = false;
+        setTimeout(() => {
+          gameState.constellationDetectionEnabled = true;
+        }, gameState.constellations.constellationLoopDelay - (Date.now() - gameState.constellations.appearanceTime));
       }
     });
 
@@ -651,20 +700,20 @@ class GameScene extends Phaser.Scene {
   updateScore(event) {
     let points;
     let textToDisplay;
-    switch (event) {
-      case 'correct':
-        points = gameState.counterBars.children.entries.length * 10;
-        textToDisplay = `Well done! +${points} pts`;
-        break;
-      case 'shooting star':
-        points = 500;
-        textToDisplay = "Shooting star spotted! +500 pts";
-        break;
-      case 'ufo':
-        points = gameState.score;
-        textToDisplay = "UFO spotted! Doubling score!";
-        break;
+    if (event === "correct") {
+      points = gameState.counterBars.children.entries.length * 10;
+      textToDisplay = `Well done! +${points} pts`;
+    } else if (event === "shooting star") {
+      points = 500;
+      textToDisplay = "Shooting star spotted! +500 pts";
+    } else if (event === "ufo") {
+      points = gameState.score;
+      textToDisplay = "UFO spotted! Doubling score!";
+    } else if (event.includes("rising")) {
+      points = 1000;
+      textToDisplay = event.slice(0,1).toUpperCase() + event.slice(1) + "! +1000 pts"
     }
+    
     gameState.score += points;
     gameState.scoreText.setText(`Score: ${gameState.score}`);
     gameState.comment = this.add.text(20, 660, textToDisplay, {fontFamily: 'Courier New', fontSize: 18, color: '#a3ce27'});
