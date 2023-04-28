@@ -129,6 +129,7 @@ class GameScene extends Phaser.Scene {
 
               setTimeout(() => {
                 // alert("You win!");
+                this.clearVariables();
                 gameState.endSceneText = "YOU WON!";
                 this.scene.stop("GameScene");
                 this.scene.start("EndScene");
@@ -173,18 +174,18 @@ class GameScene extends Phaser.Scene {
 
     gameState.counterBars = this.add.group();
 
-    const counterBarData = [
-      'BBB',
-      'BAA',
-      'BAA',
-      'BAA',
-      'BAA',
-      'BAA',
-      'BAA',
-      'BAA'
-    ];
+    // const counterBarData = [
+    //   'BBB',
+    //   'BAA',
+    //   'BAA',
+    //   'BAA',
+    //   'BAA',
+    //   'BAA',
+    //   'BAA',
+    //   'BAA'
+    // ];
 
-    this.textures.generate('counterBar', { data: counterBarData, pixelWidth: 2 });
+    // this.textures.generate('counterBar', { data: counterBarData, pixelWidth: 2 });
     // const counterBarImage = this.add.rectangle(10, 700, 20, 710, 0xFFFFFF).setOrigin(0);
     
     for (let i = 0; i < 890; i += 10) {
@@ -208,7 +209,7 @@ class GameScene extends Phaser.Scene {
 			loop: true,
 		});
     
-    gameState.scoreText = this.add.text(20, 610, `Score: ${gameState.score}`, {fontFamily: 'Courier New', fontSize: 32, color: '#a3ce27'});
+    gameState.scoreText = this.add.text(20, 610, `Score: ${gameState.score}`, {fontFamily: 'Courier New', fontSize: 32, color: '#FFFFFF'});
     gameState.scoreText.setDepth(4);
 
     gameState.backgroundStars = this.add.group();
@@ -240,8 +241,8 @@ class GameScene extends Phaser.Scene {
     }
     
     // this.textures.generate('backgroundStarWhite', { data: BackgroundStarDataWhite, pixelWidth: 2 });
-    this.textures.generate('backgroundStarYellow', { data: BackgroundStarDataYellow, pixelWidth: 2 });
-    this.textures.generate('backgroundStarGrey', { data: BackgroundStarDataGrey, pixelWidth: 2 });
+    // this.textures.generate('backgroundStarYellow', { data: BackgroundStarDataYellow, pixelWidth: 2 });
+    // this.textures.generate('backgroundStarGrey', { data: BackgroundStarDataGrey, pixelWidth: 2 });
 
     for (let i = 0; i < gameState.backgroundTiles.children.entries.length; i++) {
       gameState.backgroundTiles.children.entries[i].backgroundStars = this.add.group();
@@ -444,7 +445,7 @@ class GameScene extends Phaser.Scene {
       // shootingStar.body.collideWorldBounds = true;
 		}
 
-		const shootingStarGenLoop = this.time.addEvent({
+		gameState.shootingStarGenLoop = this.time.addEvent({
 			delay: 5000,
 			callback: shootingStarGen,
 			callbackScope: this,
@@ -474,7 +475,7 @@ class GameScene extends Phaser.Scene {
       });
 		}
 
-    const ufoGenLoop = this.time.addEvent({
+    gameState.ufoGenLoop = this.time.addEvent({
 			delay: Math.random() * 10000 + 20000,
 			callback: ufoGen,
 			callbackScope: this,
@@ -506,7 +507,7 @@ class GameScene extends Phaser.Scene {
 
     gameState.constellations.constellationLoopDelay = Math.random() * 10000 + 20000;
 
-    const constellationGenLoop = this.time.addEvent({
+    gameState.constellationGenLoop = this.time.addEvent({
 			delay: gameState.constellations.constellationLoopDelay,
 			callback: constellationGen,
 			callbackScope: this,
@@ -726,7 +727,7 @@ class GameScene extends Phaser.Scene {
     
     gameState.score += points;
     gameState.scoreText.setText(`Score: ${gameState.score}`);
-    gameState.comment = this.add.text(20, 660, textToDisplay, {fontFamily: 'Courier New', fontSize: 18, color: '#a3ce27'});
+    gameState.comment = this.add.text(20, 660, textToDisplay, {fontFamily: 'Courier New', fontSize: 18, color: '#FFFFFF'});
     gameState.comment.setDepth(4);
     setTimeout(() => {
       gameState.comment.destroy();
@@ -815,9 +816,37 @@ class GameScene extends Phaser.Scene {
 
   gameOver() {
     // alert("You ran out of time!");
+    this.clearVariables();
     gameState.endSceneText = "GAME OVER";
     this.scene.stop("GameScene");
     this.scene.start("EndScene");
+  }
+
+  clearVariables() {
+    gameState.backgroundStarColors = [];
+    gameState.backgroundStars.clear(true);
+    gameState.backgroundTiles.clear(true);
+    gameState.bgColors = {};
+    gameState.bottomBar.destroy();
+    gameState.boundaries.clear(true);
+    gameState.canvasHeight = 0;
+    gameState.canvasWidth = 0;
+    gameState.constellationGenLoop.destroy();
+    gameState.constellations.clear(true);
+    gameState.counterBars.clear(true);
+    // stop music
+    gameState.scoreText.destroy();
+    gameState.shootingStarGenLoop.destroy();
+    gameState.shootingStars.clear(true);
+    gameState.starImages = [];
+    gameState.target.clear(true);
+    gameState.targetTiles = [];
+    gameState.telescopeTopRect.destroy();
+    gameState.telescopeBottomRect.destroy();
+    gameState.telescopeLeftRect.destroy();
+    gameState.telescopeRightRect.destroy();
+    gameState.ufoGenLoop.destroy();
+    gameState.ufos.clear(true);
   }
 
 }
