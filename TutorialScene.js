@@ -261,8 +261,6 @@ class TutorialScene extends Phaser.Scene {
       this.input.on("pointerup", () => {
         if (gameState.instructionStep === 5) {
           gameState.backgroundStars.clear(true);
-          gameState.byText.destroy();
-          gameState.clickText.destroy();
           gameState.instructionStep = 0;
           gameState.instructionText.destroy();
           gameState.promptText.destroy();
