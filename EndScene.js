@@ -52,7 +52,7 @@ class EndScene extends Phaser.Scene {
       }, 3000)
 		}
 
-		const shootingStarGenLoop = this.time.addEvent({
+		gameState.shootingStarGenLoop = this.time.addEvent({
 			delay: 3000,
 			callback: shootingStarGen,
 			callbackScope: this,
@@ -62,9 +62,10 @@ class EndScene extends Phaser.Scene {
     this.input.on('pointerup', () => {
       gameState.titleText.destroy();
       gameState.scoreText.destroy();
-      gameState.clickText.destroy();
       gameState.backgroundStars.clear(true);
       gameState.shootingStars.clear(true);
+      gameState.shootingStarGenLoop.destroy();
+      gameState.score = 0;
       this.scene.stop("EndScene");
       this.scene.start("StartScene");
     })
