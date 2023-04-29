@@ -9,22 +9,22 @@ class GameScene extends Phaser.Scene {
 		this.load.image('bug3', 'https://content.codecademy.com/courses/learn-phaser/physics/bug_3.png');
 		this.load.image('platform', 'https://content.codecademy.com/courses/learn-phaser/physics/platform.png');
 		this.load.image('codey', 'https://content.codecademy.com/courses/learn-phaser/physics/codey.png');
-    this.load.image('star', './star.png');
-    this.load.image('star1', './star-1.png');
-    this.load.image('star2', './star-2.png');
-    this.load.image('star3', './star-3.png');
-    this.load.image('star4', './star-4.png');
-    this.load.image('star5', './star-5.png');
-    this.load.image('shootingStar', './shooting-star.png');
-    this.load.image('ufo', './ufo-test.png');
-    this.load.image('aquarius', './aquarius.png');
-    this.load.audio('backgroundMusic', './background-music-2.mp3'); // Music - Interstellar Journer © 2016 MRM TEAM
-    this.load.audio('cameraShutter', './camera-shutter.mp3'); // Sound Effect by irinairinafomicheva on Pixabay - https://pixabay.com/sound-effects/camera-13695/
-    this.load.audio('correctAnswer', './correct-answer.mp3');// Sound Effect by UNIVERSFIELD on Pixabay - https://pixabay.com/sound-effects/interface-124464/
-    this.load.audio('wrongAnswer', './wrong-answer.mp3'); // Sound Effect by Gronkjaer on Pixabay - https://pixabay.com/sound-effects/wronganswer-37702/
-    this.load.audio('shootingStar', './shooting-star.mp3'); // Sound Effect by plasterbrain on Pixabay - https://pixabay.com/sound-effects/shooting-star-2-104073/
-    this.load.audio('ufo', './ufo.mp3'); // Sound Effect by Sky Motion on Pixabay - https://pixabay.com/sound-effects/data-reveal-sound-6460/
-    this.load.audio('constellation', './constellation.mp3'); // Sound Effect by Leszek Szary on Pixabay - https://pixabay.com/sound-effects/success-1-6297/
+    this.load.image('star', './resources/images/star.png');
+    this.load.image('star1', './resources/images/star-1.png');
+    this.load.image('star2', './resources/images/star-2.png');
+    this.load.image('star3', './resources/images/star-3.png');
+    this.load.image('star4', './resources/images/star-4.png');
+    this.load.image('star5', './resources/images/star-5.png');
+    this.load.image('shootingStar', './resources/images/shooting-star.png');
+    this.load.image('ufo', './resources/images/ufo-test.png');
+    this.load.image('aquarius', './resources/images/aquarius.png');
+    this.load.audio('backgroundMusic', './resources/sounds/background-music-2.mp3'); // Music - Interstellar Journer © 2016 MRM TEAM
+    this.load.audio('cameraShutter', './resources/sounds/camera-shutter.mp3'); // Sound Effect by irinairinafomicheva on Pixabay - https://pixabay.com/sound-effects/camera-13695/
+    this.load.audio('correctAnswer', './resources/sounds/correct-answer.mp3');// Sound Effect by UNIVERSFIELD on Pixabay - https://pixabay.com/sound-effects/interface-124464/
+    this.load.audio('wrongAnswer', './resources/sounds/wrong-answer.mp3'); // Sound Effect by Gronkjaer on Pixabay - https://pixabay.com/sound-effects/wronganswer-37702/
+    this.load.audio('shootingStar', './resources/sounds/shooting-star.mp3'); // Sound Effect by plasterbrain on Pixabay - https://pixabay.com/sound-effects/shooting-star-2-104073/
+    this.load.audio('ufo', './resources/sounds/ufo.mp3'); // Sound Effect by Sky Motion on Pixabay - https://pixabay.com/sound-effects/data-reveal-sound-6460/
+    this.load.audio('constellation', './resources/sounds/constellation.mp3'); // Sound Effect by Leszek Szary on Pixabay - https://pixabay.com/sound-effects/success-1-6297/
 	}
 
 

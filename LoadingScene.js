@@ -4,7 +4,7 @@ class LoadingScene extends Phaser.Scene {
 	}
 
 	preload() {
-    this.load.image('shootingStar', './shooting-star.png');
+    this.load.image('shootingStar', './resources/images/shooting-star.png');
     this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
 	}
 

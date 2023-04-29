@@ -4,9 +4,9 @@ class TutorialScene extends Phaser.Scene {
 	}
 
 	preload() {
-    this.load.image('star1', './star-1.png');
-    this.load.image('star2', './star-2.png');
-    this.load.image('star3', './star-3.png');
+    this.load.image('star1', './resources/images/star-1.png');
+    this.load.image('star2', './resources/images/star-2.png');
+    this.load.image('star3', './resources/images/star-3.png');
 	}
 
 
