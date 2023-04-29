@@ -12,6 +12,16 @@ class EndScene extends Phaser.Scene {
     const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
     gameState.titleText = this.add.text(screenCenterX, 200, gameState.endSceneText, { fontSize: 100, fontFamily: "Rubik Moonrocks, Chalkduster" }).setOrigin(0.5);
     gameState.scoreText = this.add.text(screenCenterX, 320, `Your score was ${gameState.score} points`, { fontSize: 42, fontFamily: "Rubik Moonrocks, Chalkduster" }).setOrigin(0.5);
+    gameState.clickText = this.add.text(screenCenterX, 450, "Click to play again", { fontSize: 32, fontFamily: "Courier New" }).setOrigin(0.5);
+    this.tweens.add({
+      targets: gameState.clickText,
+      duration: 1000,
+      scaleX: 1.05,
+      scaleY: 1.05,
+      yoyo: true,
+      hold: 200,
+      repeat: -1
+    })
 
     gameState.backgroundStars = this.add.group();
 
@@ -62,6 +72,7 @@ class EndScene extends Phaser.Scene {
     this.input.on('pointerup', () => {
       gameState.titleText.destroy();
       gameState.scoreText.destroy();
+      gameState.clickText.destroy();
       gameState.backgroundStars.clear(true);
       gameState.shootingStars.clear(true);
       gameState.shootingStarGenLoop.destroy();
