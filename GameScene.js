@@ -201,8 +201,8 @@ class GameScene extends Phaser.Scene {
           const lastIndex = gameState.counterBars.children.entries.length - 1;
           gameState.counterBars.children.entries[lastIndex].destroy();
         } else {
-          this.gameOver();
           counterReduceLoop.destroy();
+          this.gameOver();
         }
       },
 			callbackScope: this,
